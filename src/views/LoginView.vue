@@ -15,7 +15,7 @@
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
-      <div class="my-8 w-[90%]">
+      <div class="mt-8 mb-4 w-[90%]">
         <div class="flex relative">
           <input
             class="md:p-2 border-b border-black outline-none w-[100%]"
