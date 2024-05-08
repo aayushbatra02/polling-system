@@ -21,12 +21,12 @@ export const useLogin = () => {
     password: "",
   });
 
-  const doValidation = ref(false);
+  const validateForm = ref(false);
   const showLoginError = ref(false);
   const showPassword = ref(false);
 
   const loginHandler = () => {
-    doValidation.value = true;
+    validateForm.value = true;
     validateEmail();
     validatePassword();
     if (!errorMessage.email && !errorMessage.password) {
@@ -37,13 +37,13 @@ export const useLogin = () => {
 
   const validateEmail = () => {
     showLoginError.value = false;
-    if (doValidation.value) errorMessage.email = authenticateEmail(loginData.email)
+    if (validateForm.value) errorMessage.email = authenticateEmail(loginData.email)
           
   };
 
   const validatePassword = () => {
     showLoginError.value = false;
-    if (doValidation.value) {
+    if (validateForm.value) {
       errorMessage.password = authenticatePassword(loginData.password)
     }
   };
