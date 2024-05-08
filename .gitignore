@@ -22,7 +22,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-
-#custom files yet to be merged 
-src/views/SignupView.vue

@@ -1,8 +1,7 @@
 import { useAuthStore } from "@/stores/AuthStore";
 import { onMounted, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { authenticateEmail } from "@/utils/authenticateEmail";
-import { authenticatePassword } from "@/utils/authenticatePassword";
+import { authenticateEmail, authenticatePassword } from "@/utils/authenticate";
 
 export const useLogin = () => {
   const authStore = useAuthStore();
