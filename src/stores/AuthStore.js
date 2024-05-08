@@ -24,7 +24,7 @@ export const useAuthStore = defineStore("authStore", () => {
         const data = res?.data;
         state.userDetails = data?.user;
         localStorage.setItem("token", data?.token);
-        router.push("/poll-list");
+        router.push("/");
       }
     } catch (e) {
       state.loginError = e?.response?.data?.message;

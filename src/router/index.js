@@ -13,7 +13,7 @@ const routes = [
     component: () => import("@/views/SignupView.vue"),
   },
   {
-    path: "/poll-list",
+    path: "/",
     name: "PollList",
     component: () => import("@/views/PollListView.vue"),
   },
