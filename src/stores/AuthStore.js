@@ -23,7 +23,6 @@ export const useAuthStore = defineStore("authStore", () => {
       if (res?.status === 200) {
         const data = res?.data;
         state.userDetails = data?.user;
-        localStorage.setItem('isUserAuthenticated', true)
         localStorage.setItem("token", data?.token);
         router.push("/poll-list");
       }

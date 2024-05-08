@@ -33,12 +33,12 @@ router.beforeEach((to, from, next) => {
   if (
     to.name !== "Login" &&
     to.name !== "Signup" &&
-    !localStorage.getItem("isUserAuthenticated")
+    !localStorage.getItem("token")
   ) {
     next({ name: "Login" });
   } else if (
     (to.name == "Login" || to.name == "Signup") &&
-    localStorage.getItem("isUserAuthenticated")
+    localStorage.getItem("token")
   ) {
     next({ name: "PollList" });
   } else {
