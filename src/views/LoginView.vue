@@ -8,7 +8,7 @@
       <div class="mt-8 w-[90%]">
         <input
           class="border-b border-black md:p-2 outline-none w-[100%]"
-          type="text"
+          type="email"
           placeholder="Email"
           v-model.trim="loginData.email"
           @input="validateEmail"
@@ -47,14 +47,7 @@
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        <span
-          v-if="loading"
-          class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        >
-          <span
-            class="inline-block w-4 h-4 border-t-2 border-blue-dark rounded-full animate-spin"
-          ></span>
-        </span>
+        <mini-loader v-if="loading"/>
         <span v-else>LOGIN</span>
       </button>
       <p class="mt-5">

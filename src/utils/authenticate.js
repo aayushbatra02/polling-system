@@ -14,13 +14,13 @@ export const authenticateEmail = (email) => {
   } else {
     return "";
   }
+};
 
-}
-
-export const authenticatePassword = (password) => {
+export const authenticateField = (password, fieldName) => {
+  console.log(fieldName);
   if (!password) {
-    return "Password Required";
+    return `${fieldName} Required`;
   } else {
     return "";
   }
-}
+};

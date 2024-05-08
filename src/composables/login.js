@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/stores/AuthStore";
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { authenticateEmail, authenticatePassword } from "@/utils/authenticate";
+import { authenticateEmail, authenticateField } from "@/utils/authenticate";
 
 export const useLogin = () => {
   const authStore = useAuthStore();
@@ -40,7 +40,7 @@ export const useLogin = () => {
   const validatePassword = () => {
     showLoginError.value = false;
     if (validateForm.value) {
-      errorMessage.password = authenticatePassword(loginData.password)
+      errorMessage.password = authenticateField(loginData.password, 'Password')
     }
   };
 
