@@ -25,4 +25,4 @@ pnpm-debug.log*
 
 
 #custom files yet to be merged 
-SignupView.vue
+src/views/SignupView.vue

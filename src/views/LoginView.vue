@@ -46,7 +46,7 @@
       >
         LOGIN
       </button>
-      <p class="mt-8">
+      <p class="mt-5">
         Dont't have an account?
         <RouterLink to="/signup" class="text-blue ml-2">Sign up</RouterLink>
       </p>

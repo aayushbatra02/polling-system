@@ -23,8 +23,8 @@ export const useLogin = () => {
   });
 
   const doValidation = ref(false);
-
   const showLoginError = ref(false);
+  const showPassword = ref(false);
 
   const loginHandler = () => {
     doValidation.value = true;
@@ -48,8 +48,6 @@ export const useLogin = () => {
       errorMessage.password = authenticatePassword(loginData.password)
     }
   };
-
-  const showPassword = ref(false);
 
   const togglePassword = () => {
     showPassword.value = !showPassword.value;
