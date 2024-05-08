@@ -3,18 +3,18 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
 
-const url = "https://c134-119-82-71-56.ngrok-free.app/";
+const url = process.env.VUE_APP_BASE_URL;
 
 export const useAuthStore = defineStore("authStore", () => {
   const state = reactive({
     isUserAuthenticated: false,
-    error: null,
+    loginError: null,
     userDetails: null,
   });
 
   const handleLogin = async (email, password) => {
     try {
-      state.error = null;
+      state.loginError = null;
       const res = await axios.post(`${url}user/login`, {
         email,
         password,
@@ -27,7 +27,7 @@ export const useAuthStore = defineStore("authStore", () => {
         router.push("/poll-list");
       }
     } catch (e) {
-      state.error = e.response.data.message;
+      state.loginError = e?.response?.data?.message;
     }
   };
 

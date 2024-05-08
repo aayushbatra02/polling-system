@@ -1,10 +1,13 @@
 <template>
   <div class="bg-backgroungColor h-[100vh] flex justify-center items-center">
-    <div class="bg-white p-5 md:p-10 lg:p-15 lg:px-20 flex flex-col items-center rounded-xl">
+    <form
+    @submit.prevent="loginHandler"
+      class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[40%]"
+    >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Login</h1>
-      <div class="mt-8">
+      <div class="mt-8 w-[90%]">
         <input
-          class="border-b border-black md:p-2 outline-none"
+          class="border-b border-black md:p-2 outline-none w-[100%]"
           type="text"
           placeholder="Email"
           v-model.trim="loginData.email"
@@ -12,10 +15,10 @@
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
-      <div class="my-8">
+      <div class="my-8 w-[90%]">
         <div class="flex relative">
           <input
-            class="md:p-2 border-b border-black outline-none"
+            class="md:p-2 border-b border-black outline-none w-[100%]"
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
             v-model="loginData.password"
@@ -23,23 +26,23 @@
           />
           <Icon
             v-if="showPassword"
-            @click="togglePassword(false)"
+            @click="togglePassword()"
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
             icon="mdi:eye-off-outline"
           />
           <Icon
             v-else
-            @click="togglePassword(true)"
+            @click="togglePassword()"
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
             icon="mdi:eye-outline"
           />
         </div>
         <p class="text-red">{{ errorMessage.password }}</p>
       </div>
-      <p class="text-red mb-4" v-if="error && showFetchError">{{ error }}</p>
+      <p class="text-red" v-if="loginError && showLoginError">{{ loginError }}</p>
       <button
-        @click="loginHandler"
-        class="mt-4 border-2 border-blue text-blue w-[100%] py-2 rounded-lg hover:bg-blue hover:text-white"
+        type="submit"
+        class="mt-4 border-2 border-blue text-blue w-[80%] py-2 rounded-lg hover:bg-blue hover:text-white"
       >
         LOGIN
       </button>
@@ -47,82 +50,23 @@
         Dont't have an account?
         <RouterLink to="/signup" class="text-blue ml-2">Sign up</RouterLink>
       </p>
-    </div>
+    </form>
   </div>
 </template>
 
 <script setup>
-import { useAuthStore } from "@/stores/AuthStore";
-import { onMounted, reactive, ref } from "vue";
+import { useLogin } from "@/composables/login";
 import { Icon } from "@iconify/vue";
-import { storeToRefs } from "pinia";
 
-const authStore = useAuthStore();
-const { error, isUserAuthenticated } = storeToRefs(authStore);
-
-onMounted(() => {
-  isUserAuthenticated.value = false;
-});
-
-const loginData = reactive({
-  email: "",
-  password: "",
-});
-
-const errorMessage = reactive({
-  email: "",
-  password: "",
-});
-
-const doValidation = ref(false);
-
-const showFetchError = ref(false);
-
-const loginHandler = () => {
-  doValidation.value = true;
-  validateEmail();
-  validatePassword();
-  if (!errorMessage.email && !errorMessage.password) {
-    showFetchError.value = true;
-    authStore.handleLogin(loginData.email, loginData.password);
-  }
-};
-
-const checkEmail = (email) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
-
-const validateEmail = () => {
-  showFetchError.value = false;
-  if (doValidation.value) {
-    if (!loginData.email) {
-      errorMessage.email = "Email Required";
-    } else if (!checkEmail(loginData.email)) {
-      errorMessage.email = "Invalid Email";
-    } else {
-      errorMessage.email = "";
-    }
-  }
-};
-
-const validatePassword = () => {
-  showFetchError.value = false;
-  if (doValidation.value) {
-    if (!loginData.password) {
-      errorMessage.password = "Password Required";
-    } else {
-      errorMessage.password = "";
-    }
-  }
-};
-
-const showPassword = ref(false);
-
-const togglePassword = (bool) => {
-  showPassword.value = bool;
-};
+const {
+  loginData,
+  validateEmail,
+  errorMessage,
+  showPassword,
+  showLoginError,
+  validatePassword,
+  togglePassword,
+  loginError,
+  loginHandler,
+} = useLogin();
 </script>
