@@ -2,7 +2,7 @@
   <div class="bg-backgroungColor h-[100vh] flex justify-center items-center">
     <form
       @submit.prevent="loginHandler"
-      class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[40%]"
+      class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
     >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Login</h1>
       <div class="mt-8 w-[90%]">
