@@ -1,15 +1,11 @@
 import { useAuthStore } from "@/stores/AuthStore";
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { authenticateEmail, authenticatePassword } from "@/utils/authenticate";
 
 export const useLogin = () => {
   const authStore = useAuthStore();
-  const { loginError, isUserAuthenticated } = storeToRefs(authStore);
-
-  onMounted(() => {
-    isUserAuthenticated.value = false;
-  });
+  const { loginError, loading } = storeToRefs(authStore);
 
   const loginData = reactive({
     email: "",
@@ -52,5 +48,5 @@ export const useLogin = () => {
     showPassword.value = !showPassword.value;
   };
 
-  return {loginData, validateEmail, errorMessage, showPassword, validatePassword, togglePassword, loginError, showLoginError, loginHandler}
+  return {loginData, validateEmail, errorMessage, showPassword, validatePassword, togglePassword, loginError, showLoginError, loginHandler, loading}
 };

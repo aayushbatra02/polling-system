@@ -1,7 +1,7 @@
 <template>
   <div class="bg-backgroungColor h-[100vh] flex justify-center items-center">
     <form
-    @submit.prevent="loginHandler"
+      @submit.prevent="loginHandler"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[40%]"
     >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Login</h1>
@@ -39,12 +39,23 @@
         </div>
         <p class="text-red">{{ errorMessage.password }}</p>
       </div>
-      <p class="text-red" v-if="loginError && showLoginError">{{ loginError }}</p>
+      <p class="text-red" v-if="loginError && showLoginError">
+        {{ loginError }}
+      </p>
       <button
+        :disabled="loading"
         type="submit"
-        class="mt-4 border-2 border-blue text-blue w-[80%] py-2 rounded-lg hover:bg-blue hover:text-white"
+        class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        LOGIN
+        <span
+          v-if="loading"
+          class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        >
+          <span
+            class="inline-block w-4 h-4 border-t-2 border-blue-dark rounded-full animate-spin"
+          ></span>
+        </span>
+        <span v-else>LOGIN</span>
       </button>
       <p class="mt-5">
         Dont't have an account?
@@ -68,5 +79,6 @@ const {
   togglePassword,
   loginError,
   loginHandler,
+  loading,
 } = useLogin();
 </script>

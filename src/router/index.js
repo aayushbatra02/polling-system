@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import NotFoundVue from "@/views/NotFoundView.vue";
-import { useAuthStore } from "@/stores/AuthStore.js";
 
 const routes = [
   {
@@ -31,10 +30,20 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
-  if (to.name !== "Login" && to.name !== "Signup" && !authStore.isUserAuthenticated)
+  if (
+    to.name !== "Login" &&
+    to.name !== "Signup" &&
+    !localStorage.getItem("isUserAuthenticated")
+  ) {
     next({ name: "Login" });
-  else next();
+  } else if (
+    (to.name == "Login" || to.name == "Signup") &&
+    localStorage.getItem("isUserAuthenticated")
+  ) {
+    next({ name: "PollList" });
+  } else {
+    next();
+  }
 });
 
 export default router;
