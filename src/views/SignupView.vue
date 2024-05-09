@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-backgroungColor h-[100vh] flex justify-center items-center">
+  <div class="bg-backgroungColor min-h-[100vh] h-max flex justify-center items-center">
     <form
       @submit.prevent="signupHandler"
-      class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
+      class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%] md:m-[5rem]"
       novalidate
       >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Signup</h1>
@@ -92,7 +92,7 @@
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        <mini-loader v-if="loading" />
+        <spinning-loader v-if="loading" />
         <span v-else>SIGNUP</span>
       </button>
       <p class="mt-5">
@@ -100,13 +100,13 @@
         <RouterLink to="/login" class="text-blue ml-2">Login</RouterLink>
       </p>
     </form>
-    <success-modal :message="signupMessage" @primary-button-handler="routeToLogin" v-if="signupMessage"/>
+    <confirmation-modal :message="signupMessage" @primary-button-handler="routeToLogin" v-if="signupMessage"/>
   </div>
 </template>
 
 <script setup>
-import MiniLoader from "@/components/MiniLoader.vue";
-import SuccessModal from "@/components/SuccessModal.vue";
+import SpinningLoader from "@/components/SpinningLoader.vue";
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { useSignup } from "@/composables/signup";
 import { Icon } from "@iconify/vue";
 const {

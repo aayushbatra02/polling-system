@@ -48,7 +48,7 @@
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        <mini-loader v-if="loading"/>
+        <spinning-loader v-if="loading"/>
         <span v-else>LOGIN</span>
       </button>
       <p class="mt-5">
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import MiniLoader from "@/components/MiniLoader.vue";
+import SpinningLoader from "@/components/SpinningLoader.vue";
 import { useLogin } from "@/composables/login";
 import { Icon } from "@iconify/vue";
 
