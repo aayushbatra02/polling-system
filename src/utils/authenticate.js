@@ -12,15 +12,26 @@ export const authenticateEmail = (email) => {
   } else if (!checkEmailRegex(email)) {
     return "Invalid Email";
   } else {
-    return "";
+    return null;
   }
 };
 
-export const authenticateField = (password, fieldName) => {
-  console.log(fieldName);
-  if (!password) {
+export const authenticateField = (value, fieldName, page) => {
+  if (!value && value !== 0) {
     return `${fieldName} Required`;
+  } else if(page === 'minFourChar' && value.length < 4){
+    return `${fieldName} must contain 4 characters`;
   } else {
-    return "";
+    return null;
+  }
+};
+
+export const authenticatePassword = (password) => {
+  if (!password) {
+    return "Password is required";
+  } else if (password.length < 8) {
+    return `password must be contain 8 character`;
+  } else {
+    return null;
   }
 };

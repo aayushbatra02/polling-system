@@ -3,7 +3,8 @@
     <form
       @submit.prevent="loginHandler"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
-    >
+      novalidate
+      >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Login</h1>
       <div class="mt-8 w-[90%]">
         <input
@@ -28,13 +29,13 @@
             v-if="showPassword"
             @click="togglePassword()"
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
-            icon="mdi:eye-off-outline"
+            icon="mdi:eye-outline"
           />
           <Icon
             v-else
             @click="togglePassword()"
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
-            icon="mdi:eye-outline"
+            icon="mdi:eye-off-outline"
           />
         </div>
         <p class="text-red">{{ errorMessage.password }}</p>
@@ -59,6 +60,7 @@
 </template>
 
 <script setup>
+import MiniLoader from "@/components/MiniLoader.vue";
 import { useLogin } from "@/composables/login";
 import { Icon } from "@iconify/vue";
 

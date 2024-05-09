@@ -13,8 +13,8 @@ export const useLogin = () => {
   });
 
   const errorMessage = reactive({
-    email: "",
-    password: "",
+    email: null,
+    password: null,
   });
 
   const validateForm = ref(false);
@@ -33,14 +33,14 @@ export const useLogin = () => {
 
   const validateEmail = () => {
     showLoginError.value = false;
-    if (validateForm.value) errorMessage.email = authenticateEmail(loginData.email)
-          
+    if (validateForm.value)
+      errorMessage.email = authenticateEmail(loginData.email);
   };
 
   const validatePassword = () => {
     showLoginError.value = false;
     if (validateForm.value) {
-      errorMessage.password = authenticateField(loginData.password, 'Password')
+      errorMessage.password = authenticateField(loginData.password, "Password");
     }
   };
 
@@ -48,5 +48,16 @@ export const useLogin = () => {
     showPassword.value = !showPassword.value;
   };
 
-  return {loginData, validateEmail, errorMessage, showPassword, validatePassword, togglePassword, loginError, showLoginError, loginHandler, loading}
+  return {
+    loginData,
+    validateEmail,
+    errorMessage,
+    showPassword,
+    validatePassword,
+    togglePassword,
+    loginError,
+    showLoginError,
+    loginHandler,
+    loading,
+  };
 };

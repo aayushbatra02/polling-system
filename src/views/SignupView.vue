@@ -1,46 +1,61 @@
 <template>
   <div class="bg-backgroungColor h-[100vh] flex justify-center items-center">
     <form
+      @submit.prevent="signupHandler"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
-    >
+      novalidate
+      >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Signup</h1>
       <div class="mt-8 w-[90%]">
         <input
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="text"
           placeholder="First Name"
+          v-model="signupData.firstName"
+          @input="validateFirstName"
         />
-        <p class="text-red"></p>
+        <p class="text-red">{{ errorMessage.firstName }}</p>
       </div>
       <div class="mt-8 w-[90%]">
         <input
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="text"
           placeholder="Last Name"
+          v-model="signupData.lastName"
+          @input="validateLastName"
         />
-        <p class="text-red"></p>
+        <p class="text-red">{{ errorMessage.lastName }}</p>
       </div>
       <div class="mt-8 w-[90%]">
         <input
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="email"
           placeholder="Email"
+          v-model="signupData.email"
+          @input="validateEmail"
         />
-        <p class="text-red"></p>
+        <p class="text-red">{{ errorMessage.email }}</p>
       </div>
       <div class="mt-8 w-[90%]">
-        <input
-          class="border-b border-black md:p-2 outline-none w-[100%]"
-          type="text"
-          placeholder="Role"
-        />
-        <p class="text-red"></p>
+        <select
+          class="p-2 border border-black rounded w-[100%] bg-white"
+          v-model="signupData.role"
+          @change="validateRole"
+        >
+          <option disabled value="">Please Select a Role</option>
+          <option v-for="role in roles" :value="role.id" :key="role.id">
+            {{ role.name }}
+          </option>
+        </select>
+        <p class="text-red">{{ errorMessage.role }}</p>
       </div>
       <div class="mt-8 mb-4 w-[90%]">
         <div class="flex relative">
           <input
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Password"
+            v-model="signupData.password"
+            @input="validatePassword"
           />
           <Icon
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
@@ -51,13 +66,15 @@
             icon="mdi:eye-outline"
           />
         </div>
-        <p class="text-red"></p>
+        <p class="text-red">{{ errorMessage.password }}</p>
       </div>
       <div class="mt-8 mb-4 w-[90%]">
         <div class="flex relative">
           <input
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Confirm Password"
+            v-model="signupData.confirmPassword"
+            @input="validateConformPassword"
           />
           <Icon
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
@@ -68,30 +85,46 @@
             icon="mdi:eye-outline"
           />
         </div>
-        <p class="text-red"></p>
+        <p class="text-red">{{ errorMessage.confirmPassword }}</p>
       </div>
-      <p class="text-red"></p>
+      <p v-if="showSignupError" class="text-red w-[90%] text-left">{{ error }}</p>
       <button
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        <span
-          v-if="false"
-          class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        >
-          <span
-            class="inline-block w-4 h-4 border-t-2 border-blue-dark rounded-full animate-spin"
-          ></span>
-        </span>
-        <span v-else  >SIGNUP</span>
+        <mini-loader v-if="loading" />
+        <span v-else>SIGNUP</span>
       </button>
       <p class="mt-5">
         Already have an account?
         <RouterLink to="/login" class="text-blue ml-2">Login</RouterLink>
       </p>
     </form>
+    <success-modal :message="signupMessage" @primary-button-handler="routeToLogin" v-if="signupMessage"/>
   </div>
 </template>
 
 <script setup>
+import MiniLoader from "@/components/MiniLoader.vue";
+import SuccessModal from "@/components/SuccessModal.vue";
+import { useSignup } from "@/composables/signup";
+import { Icon } from "@iconify/vue";
+const {
+  signupHandler,
+  signupData,
+  errorMessage,
+  validateFirstName,
+  validateLastName,
+  validateEmail,
+  roles,
+  validateRole,
+  validatePassword,
+  validateConformPassword,
+  routeToLogin,
+  loading,
+  error,
+  showSignupError,
+  signupMessage,
+} = useSignup();
+
 </script>
