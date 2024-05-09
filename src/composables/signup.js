@@ -27,13 +27,24 @@ export const useSignup = () => {
   });
   const validateSignupFrom = ref(false);
   const showSignupError = ref(false);
+  const showPassword = ref(false);
+  const showConfirmPassword = ref(false);
 
   const signupStore = useSignupStore();
   const { roles, loading, error, signupMessage } = storeToRefs(signupStore);
 
-  onMounted(() => {
-    signupStore.getRoles();
+  onMounted(async () => {
+    await signupStore.getRoles();
+    console.log("HERE")
   });
+
+  const togglePassword = () => {
+    showPassword.value = !showPassword.value;
+  };
+
+  const toggleConfirmPassword = () => {
+    showConfirmPassword.value = !showConfirmPassword.value;
+  };
 
   const validateFirstName = () => {
     showSignupError.value = false;
@@ -142,5 +153,9 @@ export const useSignup = () => {
     showSignupError,
     signupMessage,
     routeToLogin,
+    showPassword,
+    showConfirmPassword,
+    togglePassword,
+    toggleConfirmPassword,
   };
 };

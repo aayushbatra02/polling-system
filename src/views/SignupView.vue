@@ -1,10 +1,12 @@
 <template>
-  <div class="bg-backgroungColor min-h-[100vh] h-max flex justify-center items-center">
+  <div
+    class="bg-backgroungColor min-h-[100vh] h-max flex justify-center items-center"
+  >
     <form
       @submit.prevent="signupHandler"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%] md:m-[5rem]"
       novalidate
-      >
+    >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Signup</h1>
       <div class="mt-8 w-[90%]">
         <input
@@ -56,14 +58,19 @@
             placeholder="Password"
             v-model="signupData.password"
             @input="validatePassword"
+            :type="showPassword ? 'text' : 'password'"
           />
           <Icon
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
             icon="mdi:eye-off-outline"
+            @click="togglePassword()"
+            v-if="!showPassword"
           />
           <Icon
+            v-else
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
             icon="mdi:eye-outline"
+            @click="togglePassword()"
           />
         </div>
         <p class="text-red">{{ errorMessage.password }}</p>
@@ -75,19 +82,26 @@
             placeholder="Confirm Password"
             v-model="signupData.confirmPassword"
             @input="validateConformPassword"
+            :type="showConfirmPassword ? 'text' : 'password'"
           />
           <Icon
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
             icon="mdi:eye-off-outline"
+            @click="toggleConfirmPassword()"
+            v-if="!showConfirmPassword"
           />
           <Icon
+            v-else
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
             icon="mdi:eye-outline"
+            @click="toggleConfirmPassword()"
           />
         </div>
         <p class="text-red">{{ errorMessage.confirmPassword }}</p>
       </div>
-      <p v-if="showSignupError" class="text-red w-[90%] text-left">{{ error }}</p>
+      <p v-if="showSignupError" class="text-red w-[90%] text-left">
+        {{ error }}
+      </p>
       <button
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
@@ -100,7 +114,11 @@
         <RouterLink to="/login" class="text-blue ml-2">Login</RouterLink>
       </p>
     </form>
-    <confirmation-modal :message="signupMessage" @primary-button-handler="routeToLogin" v-if="signupMessage"/>
+    <confirmation-modal
+      :message="signupMessage"
+      @primary-button-handler="routeToLogin"
+      v-if="signupMessage"
+    />
   </div>
 </template>
 
@@ -125,6 +143,9 @@ const {
   error,
   showSignupError,
   signupMessage,
+  showPassword,
+  showConfirmPassword,
+  togglePassword,
+  toggleConfirmPassword,
 } = useSignup();
-
 </script>
