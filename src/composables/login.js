@@ -1,10 +1,11 @@
-import { useAuthStore } from "@/stores/AuthStore";
+import { useAuthStore } from "@/stores/authStore";
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { authenticateEmail, authenticatePassword } from "@/utils/authenticate";
+import { authenticate } from "@/utils/authenticate";
 
 export const useLogin = () => {
   const authStore = useAuthStore();
+  const { loginUser } = authStore;
   const { loginError, loading } = storeToRefs(authStore);
 
   const loginData = reactive({
@@ -13,40 +14,42 @@ export const useLogin = () => {
   });
 
   const errorMessage = reactive({
-    email: "",
-    password: "",
+    email: null,
+    password: null,
   });
 
   const validateForm = ref(false);
   const showLoginError = ref(false);
-  const showPassword = ref(false);
 
-  const loginHandler = () => {
+  const onLogin = async () => {
     validateForm.value = true;
-    validateEmail();
-    validatePassword();
+    for (const key in loginData) {
+      validate(key);
+    }
     if (!errorMessage.email && !errorMessage.password) {
       showLoginError.value = true;
-      authStore.handleLogin(loginData.email, loginData.password);
+      await loginUser(loginData.email, loginData.password);
     }
   };
 
-  const validateEmail = () => {
-    showLoginError.value = false;
-    if (validateForm.value) errorMessage.email = authenticateEmail(loginData.email)
-          
-  };
-
-  const validatePassword = () => {
+  const validate = (field) => {
     showLoginError.value = false;
     if (validateForm.value) {
-      errorMessage.password = authenticatePassword(loginData.password)
+      if (field === "password") {
+        errorMessage[field] = authenticate(field, loginData[field], "login");
+      } else {
+        errorMessage[field] = authenticate(field, loginData[field]);
+      }
     }
   };
 
-  const togglePassword = () => {
-    showPassword.value = !showPassword.value;
+  return {
+    loginData,
+    errorMessage,
+    loginError,
+    showLoginError,
+    onLogin,
+    loading,
+    validate,
   };
-
-  return {loginData, validateEmail, errorMessage, showPassword, validatePassword, togglePassword, loginError, showLoginError, loginHandler, loading}
 };

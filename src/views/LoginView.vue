@@ -1,17 +1,18 @@
 <template>
   <div class="bg-backgroungColor h-[100vh] flex justify-center items-center">
     <form
-      @submit.prevent="loginHandler"
+      @submit.prevent="onLogin"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
+      novalidate
     >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Login</h1>
       <div class="mt-8 w-[90%]">
         <input
           class="border-b border-black md:p-2 outline-none w-[100%]"
-          type="text"
+          type="email"
           placeholder="Email"
           v-model.trim="loginData.email"
-          @input="validateEmail"
+          @input="validate('email')"
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
@@ -22,24 +23,24 @@
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
             v-model="loginData.password"
-            @input="validatePassword"
+            @input="validate('password')"
           />
           <Icon
             v-if="showPassword"
             @click="togglePassword()"
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
-            icon="mdi:eye-off-outline"
+            icon="mdi:eye-outline"
           />
           <Icon
             v-else
             @click="togglePassword()"
             class="absolute bottom-3 right-3 cursor-pointer w-5 h-5"
-            icon="mdi:eye-outline"
+            icon="mdi:eye-off-outline"
           />
         </div>
         <p class="text-red">{{ errorMessage.password }}</p>
       </div>
-      <p class="text-red" v-if="loginError && showLoginError">
+      <p class="text-red text-left w-[90%]" v-if="loginError && showLoginError">
         {{ loginError }}
       </p>
       <button
@@ -47,14 +48,7 @@
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        <span
-          v-if="loading"
-          class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        >
-          <span
-            class="inline-block w-4 h-4 border-t-2 border-blue-dark rounded-full animate-spin"
-          ></span>
-        </span>
+        <spinning-loader v-if="loading" />
         <span v-else>LOGIN</span>
       </button>
       <p class="mt-5">
@@ -66,19 +60,20 @@
 </template>
 
 <script setup>
+import SpinningLoader from "@/components/SpinningLoader.vue";
 import { useLogin } from "@/composables/login";
+import { useTogglePassword } from "@/composables/togglePassword";
 import { Icon } from "@iconify/vue";
 
 const {
   loginData,
-  validateEmail,
   errorMessage,
-  showPassword,
   showLoginError,
-  validatePassword,
-  togglePassword,
   loginError,
-  loginHandler,
+  onLogin,
   loading,
+  validate,
 } = useLogin();
+
+const { showPassword, togglePassword } = useTogglePassword();
 </script>
