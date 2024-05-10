@@ -2,8 +2,6 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
 
-const baseUrl = process.env.VUE_APP_BASE_URL;
-
 export const useSignupStore = defineStore("signupStore", () => {
   const state = reactive({
     roles: [],
@@ -15,18 +13,18 @@ export const useSignupStore = defineStore("signupStore", () => {
 
   const getRoles = async () => {
     try {
-      const res = await axios.get(`${baseUrl}role/list`);
+      const res = await axios.get(`role/list`);
       state.roles = res?.data;
     } catch (e) {
       console.log(e);
     }
   };
 
-  const handleSignup = async (userData) => {
+  const signupUser = async (userData) => {
     try {
       state.error = null;
       state.loading = true;
-      const res = await axios.post(`${baseUrl}user/register`, userData);
+      const res = await axios.post(`user/register`, userData);
       if (res?.status === 200) {
         const data = res.data;
         state.isUserSignedup = true;
@@ -44,5 +42,5 @@ export const useSignupStore = defineStore("signupStore", () => {
     }
   };
 
-  return { getRoles, handleSignup, ...toRefs(state) };
+  return { getRoles, signupUser, ...toRefs(state) };
 });

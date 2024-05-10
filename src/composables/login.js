@@ -5,7 +5,7 @@ import { authenticate } from "@/utils/authenticate";
 
 export const useLogin = () => {
   const authStore = useAuthStore();
-  const { handleLogin } = authStore;
+  const { loginUser } = authStore;
   const { loginError, loading } = storeToRefs(authStore);
 
   const loginData = reactive({
@@ -21,14 +21,14 @@ export const useLogin = () => {
   const validateForm = ref(false);
   const showLoginError = ref(false);
 
-  const loginHandler = async () => {
+  const onLogin = async () => {
     validateForm.value = true;
     for (const key in loginData) {
       validate(key);
     }
     if (!errorMessage.email && !errorMessage.password) {
       showLoginError.value = true;
-      await handleLogin(loginData.email, loginData.password);
+      await loginUser(loginData.email, loginData.password);
     }
   };
 
@@ -48,7 +48,7 @@ export const useLogin = () => {
     errorMessage,
     loginError,
     showLoginError,
-    loginHandler,
+    onLogin,
     loading,
     validate,
   };

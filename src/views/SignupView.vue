@@ -3,7 +3,7 @@
     class="bg-backgroungColor min-h-[100vh] h-max flex justify-center items-center"
   >
     <form
-      @submit.prevent="signupHandler"
+      @submit.prevent="onSignup"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%] md:m-[5rem]"
       novalidate
     >
@@ -116,8 +116,8 @@
     </form>
     <confirmation-modal
       heading="Congratulations!!!"
-      para="You have Signed up successfully"
-      @confirm-button-handler="routeToLogin"
+      description="You have Signed up successfully"
+      @on-confirm-button="routeToLogin"
       v-if="isUserSignedup"
     />
   </div>
@@ -130,16 +130,10 @@ import { useSignup } from "@/composables/signup";
 import { Icon } from "@iconify/vue";
 import { useTogglePassword } from "@/composables/togglePassword";
 const {
-  signupHandler,
+  onSignup,
   signupData,
   errorMessage,
-  // validateFirstName,
-  // validateLastName,
-  // validateEmail,
   roles,
-  // validateRole,
-  // validatePassword,
-  // validateconfirmPassword,
   validate,
   routeToLogin,
   loading,

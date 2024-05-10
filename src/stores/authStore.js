@@ -3,8 +3,6 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
 
-const baseUrl = process.env.VUE_APP_BASE_URL;
-
 export const useAuthStore = defineStore("authStore", () => {
   const state = reactive({
     loginError: null,
@@ -12,11 +10,11 @@ export const useAuthStore = defineStore("authStore", () => {
     loading: false,
   });
 
-  const handleLogin = async (email, password) => {
+  const loginUser = async (email, password) => {
     try {
       state.loading = true;
       state.loginError = null;
-      const res = await axios.post(`${baseUrl}user/login`, {
+      const res = await axios.post(`user/login`, {
         email,
         password,
       });
@@ -34,7 +32,7 @@ export const useAuthStore = defineStore("authStore", () => {
   };
 
   return {
-    handleLogin,
+    loginUser,
     ...toRefs(state),
   };
 });

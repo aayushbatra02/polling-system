@@ -45,7 +45,7 @@ export const useSignup = () => {
     }
   };
 
-  const signupHandler = async () => {
+  const onSignup = async () => {
     validateSignupForm.value = true;
     for (const key in signupData) {
       validate(key);
@@ -58,7 +58,7 @@ export const useSignup = () => {
       !errorMessage.password &&
       !errorMessage.confirmPassword
     ) {
-      await signupStore.handleSignup({
+      await signupStore.signupUser({
         firstName: signupData.firstName,
         lastName: signupData.lastName,
         email: signupData.email,
@@ -80,7 +80,7 @@ export const useSignup = () => {
   };
 
   return {
-    signupHandler,
+    onSignup,
     signupData,
     errorMessage,
     validate,
