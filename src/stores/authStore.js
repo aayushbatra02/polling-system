@@ -6,7 +6,6 @@ import { reactive, toRefs } from "vue";
 export const useAuthStore = defineStore("authStore", () => {
   const state = reactive({
     loginError: null,
-    userDetails: null,
     loading: false,
   });
 
@@ -20,8 +19,8 @@ export const useAuthStore = defineStore("authStore", () => {
       });
       if (res?.status === 200) {
         const data = res?.data;
-        state.userDetails = data?.user;
         localStorage.setItem("token", data?.token);
+        localStorage.setItem("user", JSON.stringify(data?.user));
         router.push("/");
       }
     } catch (e) {
