@@ -35,8 +35,8 @@ export const useLogin = () => {
   const validate = (field) => {
     showLoginError.value = false;
     if (validateForm.value) {
-      if(field === 'password'){
-        errorMessage[field] = authenticate(field, loginData[field], 'login');
+      if (field === "password") {
+        errorMessage[field] = authenticate(field, loginData[field], "login");
       } else {
         errorMessage[field] = authenticate(field, loginData[field]);
       }
@@ -50,6 +50,6 @@ export const useLogin = () => {
     showLoginError,
     loginHandler,
     loading,
-    validate
+    validate,
   };
 };

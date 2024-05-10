@@ -21,7 +21,7 @@ export const useSignup = () => {
     password: null,
     confirmPassword: null,
   });
-  const validateSignupFrom = ref(false);
+  const validateSignupForm = ref(false);
   const showSignupError = ref(false);
 
   const signupStore = useSignupStore();
@@ -33,22 +33,22 @@ export const useSignup = () => {
 
   const validate = (field) => {
     showSignupError.value = false;
-    if (validateSignupFrom.value) {
-      if(field === 'confirmPassword'){
-        errorMessage[field] = authenticate(field,[signupData.password, signupData.confirmPassword]);
-
-      }else {
+    if (validateSignupForm.value) {
+      if (field === "confirmPassword") {
+        errorMessage[field] = authenticate(field, [
+          signupData.password,
+          signupData.confirmPassword,
+        ]);
+      } else {
         errorMessage[field] = authenticate(field, signupData[field], 4);
       }
     }
-  }
+  };
 
   const signupHandler = async () => {
-    validateSignupFrom.value = true;
-    for(const key in signupData){
-
-      validate(key)
-
+    validateSignupForm.value = true;
+    for (const key in signupData) {
+      validate(key);
     }
     if (
       !errorMessage.firstName &&

@@ -4,7 +4,7 @@
       @submit.prevent="loginHandler"
       class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
       novalidate
-      >
+    >
       <h1 class="text-2xl md:text-4xl font-bold md:mb-10">Login</h1>
       <div class="mt-8 w-[90%]">
         <input
@@ -48,7 +48,7 @@
         type="submit"
         class="mt-4 border-2 border-blue text-blue w-[80%] h-12 rounded-lg hover:bg-blue hover:text-white relative"
       >
-        <spinning-loader v-if="loading"/>
+        <spinning-loader v-if="loading" />
         <span v-else>LOGIN</span>
       </button>
       <p class="mt-5">
@@ -72,8 +72,8 @@ const {
   loginError,
   loginHandler,
   loading,
-  validate
+  validate,
 } = useLogin();
 
-const {showPassword, togglePassword} = useTogglePassword();
+const { showPassword, togglePassword } = useTogglePassword();
 </script>

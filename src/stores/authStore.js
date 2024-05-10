@@ -9,7 +9,7 @@ export const useAuthStore = defineStore("authStore", () => {
   const state = reactive({
     loginError: null,
     userDetails: null,
-    loading: false
+    loading: false,
   });
 
   const handleLogin = async (email, password) => {
@@ -29,7 +29,7 @@ export const useAuthStore = defineStore("authStore", () => {
     } catch (e) {
       state.loginError = e?.response?.data?.message;
     } finally {
-      state.loading = false
+      state.loading = false;
     }
   };
 

@@ -1,4 +1,4 @@
-export const checkEmailRegex = (email) => {
+const checkEmailRegex = (email) => {
   return String(email)
     .toLowerCase()
     .match(
@@ -6,22 +6,23 @@ export const checkEmailRegex = (email) => {
     );
 };
 
-export const checkPasswordRegex = (password) => {
+const checkPasswordRegex = (password) => {
   let regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   return regex.test(password);
 };
 
-function toHumanReadable(string) {
+const fromatString = (string) => {
   const words = string.split(/(?=[A-Z])/);
   const capitalizedWords = words.map(
     (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   );
-  const humanReadableString = capitalizedWords.join(" ");
-  return humanReadableString;
-}
+  const formattedString = capitalizedWords.join(" ");
+  return formattedString;
+};
+
 
 export const authenticate = (fieldName, value, condition) => {
-  fieldName = toHumanReadable(fieldName);
+  fieldName = fromatString(fieldName);
   if (!value) {
     return `${fieldName} Required`;
   } else {

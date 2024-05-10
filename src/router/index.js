@@ -1,8 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import NotFoundVue from "@/views/NotFoundView.vue";
 
-
-
 const routes = [
   {
     path: "/login",
