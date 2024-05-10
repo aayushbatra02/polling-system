@@ -4,7 +4,7 @@ import { reactive, toRefs } from "vue";
 
 const baseUrl = process.env.VUE_APP_BASE_URL;
 
-export const useSignupStore = defineStore("authStore", () => {
+export const useSignupStore = defineStore("signupStore", () => {
   const state = reactive({
     roles: [],
     loading: false,
@@ -15,11 +15,7 @@ export const useSignupStore = defineStore("authStore", () => {
 
   const getRoles = async () => {
     try {
-      const res = await axios.get(`${baseUrl}role/list`, {
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-        },
-      });
+      const res = await axios.get(`${baseUrl}role/list`);
       state.roles = res?.data;
     } catch (e) {
       console.log(e);

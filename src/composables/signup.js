@@ -1,4 +1,4 @@
-import { useSignupStore } from "@/stores/SignupStore";
+import { useSignupStore } from "@/stores/signupStore";
 import {
   authenticateEmail,
   authenticateField,
@@ -35,7 +35,6 @@ export const useSignup = () => {
 
   onMounted(async () => {
     await signupStore.getRoles();
-    console.log("HERE")
   });
 
   const togglePassword = () => {
@@ -88,13 +87,13 @@ export const useSignup = () => {
     }
   };
 
-  const validateConformPassword = () => {
+  const validateconfirmPassword = () => {
     showSignupError.value = false;
     if (
       validateSignupFrom.value &&
       signupData.password !== signupData.confirmPassword
     ) {
-      errorMessage.confirmPassword = "Conform Password does not match";
+      errorMessage.confirmPassword = "confirm Password does not match";
     } else {
       errorMessage.confirmPassword = null;
     }
@@ -107,7 +106,7 @@ export const useSignup = () => {
     validateEmail();
     validateRole();
     validatePassword();
-    validateConformPassword();
+    validateconfirmPassword();
     if (
       !errorMessage.firstName &&
       !errorMessage.lastName &&
@@ -146,7 +145,7 @@ export const useSignup = () => {
     validateEmail,
     validateRole,
     validatePassword,
-    validateConformPassword,
+    validateconfirmPassword,
     roles,
     loading,
     error,

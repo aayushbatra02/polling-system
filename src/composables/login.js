@@ -1,10 +1,10 @@
-import { useAuthStore } from "@/stores/AuthStore";
+import { useAuthStore } from "@/stores/authStore";
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { authenticateEmail, authenticateField } from "@/utils/authenticate";
 
 export const useLogin = () => {
-  const authStore = useAuthStore();
+  const authStore = useAuthStore(); 
   const { loginError, loading } = storeToRefs(authStore);
 
   const loginData = reactive({
@@ -21,13 +21,13 @@ export const useLogin = () => {
   const showLoginError = ref(false);
   const showPassword = ref(false);
 
-  const loginHandler = () => {
+  const loginHandler = async() => {
     validateForm.value = true;
     validateEmail();
     validatePassword();
     if (!errorMessage.email && !errorMessage.password) {
       showLoginError.value = true;
-      authStore.handleLogin(loginData.email, loginData.password);
+      await authStore.handleLogin(loginData.email, loginData.password);
     }
   };
 

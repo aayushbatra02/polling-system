@@ -13,7 +13,7 @@
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="text"
           placeholder="First Name"
-          v-model="signupData.firstName"
+          v-model.trim="signupData.firstName"
           @input="validateFirstName"
         />
         <p class="text-red">{{ errorMessage.firstName }}</p>
@@ -23,7 +23,7 @@
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="text"
           placeholder="Last Name"
-          v-model="signupData.lastName"
+          v-model.trim="signupData.lastName"
           @input="validateLastName"
         />
         <p class="text-red">{{ errorMessage.lastName }}</p>
@@ -33,7 +33,7 @@
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="email"
           placeholder="Email"
-          v-model="signupData.email"
+          v-model.trim ="signupData.email"
           @input="validateEmail"
         />
         <p class="text-red">{{ errorMessage.email }}</p>
@@ -81,7 +81,7 @@
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Confirm Password"
             v-model="signupData.confirmPassword"
-            @input="validateConformPassword"
+            @input="validateconfirmPassword"
             :type="showConfirmPassword ? 'text' : 'password'"
           />
           <Icon
@@ -137,7 +137,7 @@ const {
   roles,
   validateRole,
   validatePassword,
-  validateConformPassword,
+  validateconfirmPassword,
   routeToLogin,
   loading,
   error,
