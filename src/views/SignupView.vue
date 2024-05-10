@@ -14,7 +14,7 @@
           type="text"
           placeholder="First Name"
           v-model.trim="signupData.firstName"
-          @input="validateFirstName"
+          @input="validate('firstName', signupData.firstName)"
         />
         <p class="text-red">{{ errorMessage.firstName }}</p>
       </div>
@@ -24,7 +24,7 @@
           type="text"
           placeholder="Last Name"
           v-model.trim="signupData.lastName"
-          @input="validateLastName"
+          @input="validate('lastName', signupData.lastName)"
         />
         <p class="text-red">{{ errorMessage.lastName }}</p>
       </div>
@@ -33,8 +33,8 @@
           class="border-b border-black md:p-2 outline-none w-[100%]"
           type="email"
           placeholder="Email"
-          v-model.trim ="signupData.email"
-          @input="validateEmail"
+          v-model.trim="signupData.email"
+          @input="validate('email', signupData.email)"
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
@@ -42,7 +42,7 @@
         <select
           class="p-2 border border-black rounded w-[100%] bg-white"
           v-model="signupData.role"
-          @change="validateRole"
+          @change="validate('role', signupData.role)"
         >
           <option disabled value="">Please Select a Role</option>
           <option v-for="role in roles" :value="role.id" :key="role.id">
@@ -57,7 +57,7 @@
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Password"
             v-model="signupData.password"
-            @input="validatePassword"
+            @input="validate('password', signupData.password)"
             :type="showPassword ? 'text' : 'password'"
           />
           <Icon
@@ -81,7 +81,7 @@
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Confirm Password"
             v-model="signupData.confirmPassword"
-            @input="validateconfirmPassword"
+            @input="validate('confirmPassword')"
             :type="showConfirmPassword ? 'text' : 'password'"
           />
           <Icon
@@ -115,9 +115,10 @@
       </p>
     </form>
     <confirmation-modal
-      :message="signupMessage"
-      @primary-button-handler="routeToLogin"
-      v-if="signupMessage"
+      heading="Congratulations!!!"
+      para="You have Signed up successfully"
+      @confirm-button-handler="routeToLogin"
+      v-if="isUserSignedup"
     />
   </div>
 </template>
@@ -127,25 +128,30 @@ import SpinningLoader from "@/components/SpinningLoader.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { useSignup } from "@/composables/signup";
 import { Icon } from "@iconify/vue";
+import { useTogglePassword } from "@/composables/togglePassword";
 const {
   signupHandler,
   signupData,
   errorMessage,
-  validateFirstName,
-  validateLastName,
-  validateEmail,
+  // validateFirstName,
+  // validateLastName,
+  // validateEmail,
   roles,
-  validateRole,
-  validatePassword,
-  validateconfirmPassword,
+  // validateRole,
+  // validatePassword,
+  // validateconfirmPassword,
+  validate,
   routeToLogin,
   loading,
   error,
   showSignupError,
-  signupMessage,
+  isUserSignedup,
+} = useSignup();
+
+const {
   showPassword,
   showConfirmPassword,
   togglePassword,
   toggleConfirmPassword,
-} = useSignup();
+} = useTogglePassword();
 </script>

@@ -1,12 +1,8 @@
 import { useSignupStore } from "@/stores/signupStore";
-import {
-  authenticateEmail,
-  authenticateField,
-  authenticatePassword,
-} from "@/utils/authenticate";
 import { storeToRefs } from "pinia";
 import { onMounted, reactive, ref } from "vue";
 import router from "@/router/index.js";
+import { authenticate } from "@/utils/authenticate";
 
 export const useSignup = () => {
   const signupData = reactive({
@@ -27,86 +23,33 @@ export const useSignup = () => {
   });
   const validateSignupFrom = ref(false);
   const showSignupError = ref(false);
-  const showPassword = ref(false);
-  const showConfirmPassword = ref(false);
 
   const signupStore = useSignupStore();
-  const { roles, loading, error, signupMessage } = storeToRefs(signupStore);
+  const { roles, loading, error, isUserSignedup } = storeToRefs(signupStore);
 
   onMounted(async () => {
     await signupStore.getRoles();
   });
 
-  const togglePassword = () => {
-    showPassword.value = !showPassword.value;
-  };
-
-  const toggleConfirmPassword = () => {
-    showConfirmPassword.value = !showConfirmPassword.value;
-  };
-
-  const validateFirstName = () => {
+  const validate = (field) => {
     showSignupError.value = false;
     if (validateSignupFrom.value) {
-      errorMessage.firstName = authenticateField(
-        signupData.firstName,
-        "First Name",
-        "minFourChar"
-      );
-    }
-  };
+      if(field === 'confirmPassword'){
+        errorMessage[field] = authenticate(field,[signupData.password, signupData.confirmPassword]);
 
-  const validateLastName = () => {
-    showSignupError.value = false;
-    if (validateSignupFrom.value) {
-      errorMessage.lastName = authenticateField(
-        signupData.lastName,
-        "Last Name",
-        "minFourChar"
-      );
+      }else {
+        errorMessage[field] = authenticate(field, signupData[field], 4);
+      }
     }
-  };
-
-  const validateEmail = () => {
-    showSignupError.value = false;
-    if (validateSignupFrom.value)
-      errorMessage.email = authenticateEmail(signupData.email);
-  };
-
-  const validateRole = () => {
-    showSignupError.value = false;
-    if (validateSignupFrom.value) {
-      errorMessage.role = authenticateField(signupData.role, "Role");
-    }
-  };
-
-  const validatePassword = () => {
-    showSignupError.value = false;
-    if (validateSignupFrom.value) {
-      errorMessage.password = authenticatePassword(signupData.password);
-    }
-  };
-
-  const validateconfirmPassword = () => {
-    showSignupError.value = false;
-    if (
-      validateSignupFrom.value &&
-      signupData.password !== signupData.confirmPassword
-    ) {
-      errorMessage.confirmPassword = "confirm Password does not match";
-    } else {
-      errorMessage.confirmPassword = null;
-    }
-  };
+  }
 
   const signupHandler = async () => {
     validateSignupFrom.value = true;
-    validateFirstName();
-    validateLastName();
-    validateEmail();
-    validateRole();
-    validatePassword();
-    validateconfirmPassword();
+    for(const key in signupData){
+
+      validate(key)
+
+    }
     if (
       !errorMessage.firstName &&
       !errorMessage.lastName &&
@@ -123,9 +66,9 @@ export const useSignup = () => {
         roleId: signupData.role,
       });
       showSignupError.value = true;
-      if (signupMessage.value) {
-        for (const property in signupData) {
-          signupData[property] = "";
+      if (isUserSignedup.value) {
+        for (const key in signupData) {
+          signupData[key] = "";
         }
       }
     }
@@ -133,28 +76,19 @@ export const useSignup = () => {
 
   const routeToLogin = () => {
     router.push("/login");
-    signupMessage.value = null;
+    isUserSignedup.value = false;
   };
 
   return {
     signupHandler,
     signupData,
     errorMessage,
-    validateFirstName,
-    validateLastName,
-    validateEmail,
-    validateRole,
-    validatePassword,
-    validateconfirmPassword,
+    validate,
     roles,
     loading,
     error,
     showSignupError,
-    signupMessage,
+    isUserSignedup,
     routeToLogin,
-    showPassword,
-    showConfirmPassword,
-    togglePassword,
-    toggleConfirmPassword,
   };
 };

@@ -1,10 +1,11 @@
 import { useAuthStore } from "@/stores/authStore";
 import { reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { authenticateEmail, authenticateField } from "@/utils/authenticate";
+import { authenticate } from "@/utils/authenticate";
 
 export const useLogin = () => {
-  const authStore = useAuthStore(); 
+  const authStore = useAuthStore();
+  const { handleLogin } = authStore;
   const { loginError, loading } = storeToRefs(authStore);
 
   const loginData = reactive({
@@ -19,45 +20,36 @@ export const useLogin = () => {
 
   const validateForm = ref(false);
   const showLoginError = ref(false);
-  const showPassword = ref(false);
 
-  const loginHandler = async() => {
+  const loginHandler = async () => {
     validateForm.value = true;
-    validateEmail();
-    validatePassword();
+    for (const key in loginData) {
+      validate(key);
+    }
     if (!errorMessage.email && !errorMessage.password) {
       showLoginError.value = true;
-      await authStore.handleLogin(loginData.email, loginData.password);
+      await handleLogin(loginData.email, loginData.password);
     }
   };
 
-  const validateEmail = () => {
-    showLoginError.value = false;
-    if (validateForm.value)
-      errorMessage.email = authenticateEmail(loginData.email);
-  };
-
-  const validatePassword = () => {
+  const validate = (field) => {
     showLoginError.value = false;
     if (validateForm.value) {
-      errorMessage.password = authenticateField(loginData.password, "Password");
+      if(field === 'password'){
+        errorMessage[field] = authenticate(field, loginData[field], 'login');
+      } else {
+        errorMessage[field] = authenticate(field, loginData[field]);
+      }
     }
-  };
-
-  const togglePassword = () => {
-    showPassword.value = !showPassword.value;
   };
 
   return {
     loginData,
-    validateEmail,
     errorMessage,
-    showPassword,
-    validatePassword,
-    togglePassword,
     loginError,
     showLoginError,
     loginHandler,
     loading,
+    validate
   };
 };

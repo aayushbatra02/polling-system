@@ -12,7 +12,7 @@
           type="email"
           placeholder="Email"
           v-model.trim="loginData.email"
-          @input="validateEmail"
+          @input="validate('email')"
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
@@ -23,7 +23,7 @@
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
             v-model="loginData.password"
-            @input="validatePassword"
+            @input="validate('password')"
           />
           <Icon
             v-if="showPassword"
@@ -40,7 +40,7 @@
         </div>
         <p class="text-red">{{ errorMessage.password }}</p>
       </div>
-      <p class="text-red" v-if="loginError && showLoginError">
+      <p class="text-red text-left w-[90%]" v-if="loginError && showLoginError">
         {{ loginError }}
       </p>
       <button
@@ -62,18 +62,18 @@
 <script setup>
 import SpinningLoader from "@/components/SpinningLoader.vue";
 import { useLogin } from "@/composables/login";
+import { useTogglePassword } from "@/composables/togglePassword";
 import { Icon } from "@iconify/vue";
 
 const {
   loginData,
-  validateEmail,
   errorMessage,
-  showPassword,
   showLoginError,
-  validatePassword,
-  togglePassword,
   loginError,
   loginHandler,
   loading,
+  validate
 } = useLogin();
+
+const {showPassword, togglePassword} = useTogglePassword();
 </script>

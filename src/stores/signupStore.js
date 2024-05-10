@@ -9,8 +9,8 @@ export const useSignupStore = defineStore("signupStore", () => {
     roles: [],
     loading: false,
     error: null,
-    signupMessage: null,
-    user:null
+    isUserSignedup: false,
+    user: null,
   });
 
   const getRoles = async () => {
@@ -24,16 +24,21 @@ export const useSignupStore = defineStore("signupStore", () => {
 
   const handleSignup = async (userData) => {
     try {
-      state.error = null
+      state.error = null;
       state.loading = true;
       const res = await axios.post(`${baseUrl}user/register`, userData);
-      if(res?.status === 200) {
+      if (res?.status === 200) {
         const data = res.data;
-        state.signupMessage = data.message,
-        state.user = data.response
+        state.isUserSignedup = true;
+        state.user = data.response;
       }
     } catch (e) {
-      state.error = e.response.data
+      const errorMessage = e?.response?.data;
+      if (errorMessage.includes("Duplicate")) {
+        state.error = `Email Id already exists.`;
+      } else {
+        state.error = errorMessage;
+      }
     } finally {
       state.loading = false;
     }

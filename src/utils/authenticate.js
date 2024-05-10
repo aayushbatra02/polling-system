@@ -11,32 +11,51 @@ export const checkPasswordRegex = (password) => {
   return regex.test(password);
 };
 
-export const authenticateEmail = (email) => {
-  if (!email) {
-    return "Email Required";
-  } else if (!checkEmailRegex(email)) {
-    return "Invalid Email";
-  } else {
-    return null;
-  }
-};
+function toHumanReadable(string) {
+  const words = string.split(/(?=[A-Z])/);
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  );
+  const humanReadableString = capitalizedWords.join(" ");
+  return humanReadableString;
+}
 
-export const authenticateField = (value, fieldName, page) => {
-  if (!value && value !== 0) {
+export const authenticate = (fieldName, value, condition) => {
+  fieldName = toHumanReadable(fieldName);
+  if (!value) {
     return `${fieldName} Required`;
-  } else if (page === "minFourChar" && value.length < 4) {
-    return `${fieldName} must contain 4 characters`;
   } else {
-    return null;
-  }
-};
-
-export const authenticatePassword = (password) => {
-  if (!password) {
-    return "Password is required";
-  } else if (!checkPasswordRegex(password)) {
-    return `min 8 letters, at least a special character, upper and lower case letters and a number`;
-  } else {
-    return null;
+    switch (fieldName) {
+      case "Email": {
+        if (!checkEmailRegex(value)) {
+          return `Invalid ${fieldName}`;
+        } else {
+          return null;
+        }
+      }
+      case "Password": {
+        if (!checkPasswordRegex(value) && condition !== "login") {
+          return `min 8 letters, at least a special character, upper and lower case letters and a number`;
+        } else {
+          return null;
+        }
+      }
+      case "Confirm Password": {
+        if (!value[1]) {
+          return `${fieldName} is required`;
+        } else if (value[0] !== value[1]) {
+          return `Password does not match`;
+        } else {
+          return null;
+        }
+      }
+      default: {
+        if (condition && value.length < condition) {
+          return `${fieldName} must contain ${condition} characters`;
+        } else {
+          return null;
+        }
+      }
+    }
   }
 };
