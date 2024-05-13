@@ -19,11 +19,11 @@ export const useAuthStore = defineStore("authStore", () => {
         password,
       });
       if (res?.status === 200) {
+        router.push("/");
         const data = res?.data;
         localStorage.setItem("token", data?.token);
         localStorage.setItem("user", JSON.stringify(data?.user));
         state.user = data?.user;
-        router.push("/");
       }
     } catch (e) {
       state.loginError = e?.response?.data?.message;
