@@ -1,11 +1,19 @@
 import router from "@/router";
+import { useAuthStore } from "@/stores/authStore";
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
 export const useNavbar = () => {
-  const userData = JSON.parse(localStorage.getItem("user"));
-  const role = userData?.roleId === 1 ? "user" : "admin";
+  const authStore = useAuthStore();
+  const { user } = storeToRefs(authStore);
   const showLogout = ref(false);
   const showNavLinks = ref(false);
+  const navlinks = [
+    { text: "Polls", route: "/", forUser: true },
+    { text: "Add Poll", route: "/" },
+    { text: "Create User", route: "/" },
+    { text: "List Users", route: "/" },
+  ];
 
   const toggleNavlinks = () => {
     showNavLinks.value = !showNavLinks.value;
@@ -26,9 +34,10 @@ export const useNavbar = () => {
     localStorage.removeItem("user");
     router.push("/login");
   };
+
   return {
-    userData,
-    role,
+    user,
+    navlinks,
     toggleLogout,
     showLogout,
     logoutUser,
