@@ -24,7 +24,7 @@
         <Icon icon="ci:hamburger-lg" class="text-black w-6 h-6" />
       </div>
       <button
-        @click="toggleLogout"
+        @click="handleLogoutModal"
         class="flex gap-3 md:gap-6 items-center py-3 md:px-6"
       >
         <Icon
@@ -59,7 +59,7 @@ import { Icon } from "@iconify/vue";
 const {
   user,
   navlinks,
-  toggleLogout,
+  handleLogoutModal,
   showLogout,
   logoutUser,
   showNavLinks,

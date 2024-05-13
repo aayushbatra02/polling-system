@@ -22,7 +22,7 @@ export const useNavbar = () => {
     }
   };
 
-  const toggleLogout = () => {
+  const handleLogoutModal = () => {
     showLogout.value = !showLogout.value;
     if (showLogout.value) {
       showNavLinks.value = false;
@@ -38,7 +38,7 @@ export const useNavbar = () => {
   return {
     user,
     navlinks,
-    toggleLogout,
+    handleLogoutModal,
     showLogout,
     logoutUser,
     showNavLinks,
