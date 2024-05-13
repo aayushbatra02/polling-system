@@ -9,7 +9,7 @@
       >
         <div v-for="(link, id) in navlinks" :key="id">
           <RouterLink
-            v-if="link.forUser || user?.roleId === ADMIN_ID"
+            v-if="link.forBoth || user?.roleId === ADMIN_ID"
             :to="link.route"
             :class="{
               'font-bold text-lg md:text-xl border-b-2 border-blue w-max':

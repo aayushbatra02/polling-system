@@ -9,7 +9,7 @@ export const useNavbar = () => {
   const showLogout = ref(false);
   const showNavLinks = ref(false);
   const navlinks = [
-    { text: "Polls", route: "/", forUser: true },
+    { text: "Polls", route: "/", forBoth: true },
     { text: "Add Poll", route: "/" },
     { text: "Create User", route: "/" },
     { text: "List Users", route: "/" },
