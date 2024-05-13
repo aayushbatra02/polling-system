@@ -1,7 +1,14 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import NotFoundVue from "@/views/NotFoundView.vue";
+import { useAuthStore } from "@/stores/authStore";
+import { storeToRefs } from "pinia";
 
 const routes = [
+  {
+    path: "/",
+    name: "PollList",
+    component: () => import("@/views/PollListView.vue"),
+  },
   {
     path: "/login",
     name: "Login",
@@ -11,11 +18,6 @@ const routes = [
     path: "/signup",
     name: "Signup",
     component: () => import("@/views/SignupView.vue"),
-  },
-  {
-    path: "/",
-    name: "PollList",
-    component: () => import("@/views/PollListView.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
@@ -30,16 +32,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (
-    to.name !== "Login" &&
-    to.name !== "Signup" &&
-    !localStorage.getItem("token")
-  ) {
+  const authStore = useAuthStore();
+  const { user } = storeToRefs(authStore);
+  if (to.name !== "Login" && to.name !== "Signup" && !user.value) {
     next({ name: "Login" });
-  } else if (
-    (to.name == "Login" || to.name == "Signup") &&
-    localStorage.getItem("token")
-  ) {
+  } else if ((to.name === "Login" || to.name === "Signup") && user.value) {
     next({ name: "PollList" });
   } else {
     next();

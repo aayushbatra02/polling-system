@@ -32,6 +32,7 @@ export const useNavbar = () => {
   const logoutUser = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    user.value = null
     router.push("/login");
   };
 
