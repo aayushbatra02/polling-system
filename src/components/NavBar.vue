@@ -31,9 +31,9 @@
           class="text-black h-10 w-10 md:w-12 md:h-12"
           icon="mingcute:user-4-fill"
         />
-        <div class="flex flex-col">
+        <div class="flex flex-col items-start">
           <div class="capitalize font-bold md:text-xl">
-            {{ user?.firstName }}
+            {{ user?.firstName }} {{ user?.lastName }}
           </div>
           <div class="text-sm md:text-md">{{ user?.email }}</div>
         </div>
@@ -43,7 +43,7 @@
       <button
         @click="logoutUser"
         v-if="showLogout"
-        class="bg-backgroungColor p-4 w-[100vw] md:w-[20rem] py-4 absolute md:text-lg flex justify-center align-center gap-2 hover:bg-blue hover:text-white rounded-bl shadow-inner shadow-lg"
+        class="bg-backgroungColor p-4 w-[100vw] md:w-[15rem] py-4 absolute md:text-lg flex justify-center align-center gap-2 hover:bg-blue hover:text-white rounded-bl shadow-inner shadow-lg"
       >
         <Icon icon="material-symbols:logout" class="w-8 h-8 text-red" />
         <div>LOGOUT</div>
