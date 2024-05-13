@@ -1,13 +1,13 @@
 import router from "@/router";
 import axios from "axios";
 import { defineStore } from "pinia";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, watchEffect } from "vue";
 
 export const useAuthStore = defineStore("authStore", () => {
   const state = reactive({
     loginError: null,
-    userDetails: null,
     loading: false,
+    user: null,
   });
 
   const loginUser = async (email, password) => {
@@ -19,10 +19,11 @@ export const useAuthStore = defineStore("authStore", () => {
         password,
       });
       if (res?.status === 200) {
-        const data = res?.data;
-        state.userDetails = data?.user;
-        localStorage.setItem("token", data?.token);
         router.push("/");
+        const data = res?.data;
+        localStorage.setItem("token", data?.token);
+        localStorage.setItem("user", JSON.stringify(data?.user));
+        state.user = data?.user;
       }
     } catch (e) {
       state.loginError = e?.response?.data?.message;
@@ -31,6 +32,9 @@ export const useAuthStore = defineStore("authStore", () => {
     }
   };
 
+  watchEffect(() => {
+    state.user = JSON.parse(localStorage.getItem("user"));
+  });
   return {
     loginUser,
     ...toRefs(state),
