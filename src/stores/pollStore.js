@@ -6,24 +6,72 @@ export const usePollStore = defineStore("pollStore", () => {
   const state = reactive({
     pollList: [],
     loading: false,
-    user: null,
+    pageNo: 1,
+    lastPage: false,
+    pollDetails: {},
+    showResultModal: false,
   });
 
   const getPolls = async () => {
     try {
       state.loading = true;
-      const res = await axios.get("poll/list/1?limit=4");
+      const res = await axios.get(`poll/list/${state.pageNo}?limit=10`);
       if (res?.status === 200) {
-        state.pollList = res?.data?.rows;
+        if (res?.data?.rows.length !== 10) {
+          state.lastPage = true;
+        }
+        if (state.pageNo === 1) {
+          state.pollList = res?.data?.rows;
+        } else {
+          state.pollList = [...state.pollList, ...res?.data?.rows];
+        }
       }
     } catch (e) {
-      console.log(e);
+      console.log(e?.response?.data?.message);
     } finally {
       state.loading = false;
     }
   };
+
+  const votePoll = async (optionId) => {
+    try {
+      await axios.post("vote/count", {
+        optionId,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDeletePoll = async (pollId) => {
+    try {
+      await axios.delete(`poll/${pollId}`);
+      const updatedPollList = state.pollList.filter(
+        (poll) => poll.id !== pollId
+      );
+      state.pollList = updatedPollList;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getSinglePoll = async (pollId) => {
+    try {
+      const res = await axios.get(`poll/${pollId}`);
+      if (res?.status === 200) {
+        state.pollDetails = res?.data;
+        state.showResultModal = true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     getPolls,
+    votePoll,
+    handleDeletePoll,
+    getSinglePoll,
     ...toRefs(state),
   };
 });

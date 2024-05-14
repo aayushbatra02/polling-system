@@ -5,9 +5,10 @@ module.exports = {
     colors: {
       blue: "#03AED2",
       white: "white",
-      backgroungColor: "#CDE8E5",
+      backgroundColor: "#CDE8E5",
       red:'red',
-      black:'black'
+      black:'black',
+      lightGray:'#F6F5F2'
     },
     extend: {},
   },

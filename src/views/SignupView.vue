@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-backgroungColor min-h-[100vh] h-max flex justify-center items-center"
+    class="bg-backgroundColor min-h-[100vh] h-max flex justify-center items-center"
   >
     <form
       @submit.prevent="onSignup"

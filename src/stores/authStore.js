@@ -8,6 +8,7 @@ export const useAuthStore = defineStore("authStore", () => {
     loginError: null,
     loading: false,
     user: null,
+    token: null,
   });
 
   const loginUser = async (email, password) => {
@@ -24,6 +25,7 @@ export const useAuthStore = defineStore("authStore", () => {
         localStorage.setItem("token", data?.token);
         localStorage.setItem("user", JSON.stringify(data?.user));
         state.user = data?.user;
+        state.token = data?.token;
       }
     } catch (e) {
       state.loginError = e?.response?.data?.message;
@@ -34,6 +36,7 @@ export const useAuthStore = defineStore("authStore", () => {
 
   watchEffect(() => {
     state.user = JSON.parse(localStorage.getItem("user"));
+    state.token = localStorage.getItem("token");
   });
   return {
     loginUser,
