@@ -21,7 +21,13 @@
           Load More Polls
         </button>
       </div>
-      <result-modal v-if="showResultModal" :poll-details="pollDetails" />
+      <result-modal
+        v-if="showResultModal"
+        :poll-details="pollDetails"
+        @close-result-modal="closeResultModal"
+        :bar-labels="barLables"
+        :bar-values="barValues"
+      />
     </div>
   </div>
 </template>
@@ -33,11 +39,20 @@ import SpinningLoader from "@/components/SpinningLoader.vue";
 import { usePollList } from "@/composables/pollList";
 import { onMounted } from "vue";
 
-const { pollList, loading, getPolls, loadMorePolls, lastPage, pollDetails, showResultModal } =
-  usePollList();
+const {
+  pollList,
+  loading,
+  getPolls,
+  loadMorePolls,
+  lastPage,
+  pollDetails,
+  showResultModal,
+  closeResultModal,
+  barLables,
+  barValues,
+} = usePollList();
 onMounted(() => {
   getPolls();
 });
-
 </script>
 

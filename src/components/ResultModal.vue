@@ -1,13 +1,13 @@
 <template>
   <div
     class="fixed inset-0 w-full h-full bg-[rgba(0,0,0,0.7)] flex justify-center items-center cursor-pointer"
-    @click.self="closeResultModal"
+    @click.self="$emit('closeResultModal')"
   >
     <div
-      class=" p-4 pt-12 lg:p-12 w-[18rem] h-[18rem] sm:w-[30rem] sm:h-[22rem] md:w-[35rem] md:h-[27rem] lg:w-[50rem] lg:h-[30rem] bg-white cursor-default relative rounded"
+      class="p-4 pt-12 lg:p-12 w-[18rem] h-[18rem] sm:w-[30rem] sm:h-[22rem] md:w-[35rem] md:h-[27rem] lg:w-[50rem] lg:h-[30rem] bg-white cursor-default relative rounded"
     >
       <Icon
-        @click="closeResultModal"
+        @click="$emit('closeResultModal')"
         class="w-10 h-10 absolute top-2 right-2 cursor-pointer"
         icon="basil:cross-solid"
       />
@@ -20,15 +20,11 @@
 </template>
 
 <script setup>
-import { storeToRefs } from "pinia";
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 import { Icon } from "@iconify/vue";
 
-import { usePollStore } from "@/stores/pollStore";
-
-const props = defineProps(["pollDetails"]);
-
-const { showResultModal } = storeToRefs(usePollStore());
+const props = defineProps(["pollDetails, barLabels, barValues"]);
+defineEmits(["closeResultModal"]);
 import { Bar } from "vue-chartjs";
 
 import {
@@ -50,24 +46,12 @@ ChartJS.register(
   LinearScale
 );
 
-const barLables = props.pollDetails.optionList.map(
-  (option) => option.optionTitle
-);
-const barValues = props.pollDetails.optionList.map(
-  (option) => option.totalVoteCount
-);
-
 const chartData = {
-  labels: barLables,
-  datasets: [{ label: "Vote Count", data: barValues }],
+  labels: props.barLables,
+  datasets: [{ label: "Vote Count", data: props.barValues }],
 };
 
 const chartOptions = {
   responsive: true,
 };
-
-const closeResultModal = () => {
-  showResultModal.value = false;
-};
-
 </script>

@@ -38,6 +38,17 @@ export const usePollList = () => {
     getSinglePoll(pollId);
   };
 
+  const closeResultModal = () => {
+    showResultModal.value = false;
+  };
+
+  const barLables = pollDetails?.optionList?.map(
+    (option) => option.optionTitle
+  );
+  const barValues = pollDetails?.optionList?.map(
+    (option) => option.totalVoteCount
+  );
+
   return {
     pollList,
     loading,
@@ -50,6 +61,9 @@ export const usePollList = () => {
     deletePoll,
     showResult,
     pollDetails,
-    showResultModal
+    showResultModal,
+    closeResultModal,
+    barLables,
+    barValues
   };
 };
