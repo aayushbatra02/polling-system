@@ -4,15 +4,8 @@ import { usePollStore } from "@/stores/pollStore";
 
 export const usePollList = () => {
   const pollStore = usePollStore();
-  const {
-    loading,
-    pageNo,
-    lastPage,
-    pollDetails,
-    showResultModal,
-    resultLabels,
-    resultValues,
-  } = storeToRefs(pollStore);
+  const { pageNo, showResultModal } = storeToRefs(pollStore);
+
   const { getPolls, votePoll, handleDeletePoll, getSinglePoll } = pollStore;
   const pollSubmissionError = ref(null);
   const isPollSubmitted = ref(false);
@@ -54,24 +47,19 @@ export const usePollList = () => {
 
   const toggleDeleteModal = () => {
     showDeleteModal.value = !showDeleteModal.value;
-  }
+  };
 
   return {
-    loading,
     submitPoll,
     getPolls,
     pollSubmissionError,
     isPollSubmitted,
     loadMorePolls,
-    lastPage,
     deletePoll,
     showResult,
-    pollDetails,
     showResultModal,
     closeResultModal,
-    resultLabels,
-    resultValues,
     toggleDeleteModal,
-    showDeleteModal
+    showDeleteModal,
   };
 };

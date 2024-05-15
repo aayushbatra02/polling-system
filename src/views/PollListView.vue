@@ -55,21 +55,24 @@ import { storeToRefs } from "pinia";
 import { usePollStore } from "@/stores/pollStore";
 
 const {
-  loading,
   getPolls,
   loadMorePolls,
-  lastPage,
-  pollDetails,
   showResultModal,
   closeResultModal,
-  resultLabels,
-  resultValues,
   showDeleteModal,
   toggleDeleteModal,
   deletePoll,
 } = usePollList();
 
-const { pollList, pageNo } = storeToRefs(usePollStore());
+const {
+  pollList,
+  pageNo,
+  loading,
+  lastPage,
+  pollDetails,
+  resultLabels,
+  resultValues,
+} = storeToRefs(usePollStore());
 
 onMounted(() => {
   getPolls();
