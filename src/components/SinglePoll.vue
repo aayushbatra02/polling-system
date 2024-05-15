@@ -61,7 +61,6 @@
 import { Icon } from "@iconify/vue";
 import { storeToRefs } from "pinia";
 import { defineProps, onMounted, ref } from "vue";
-
 import { usePollList } from "@/composables/pollList";
 import { ADMIN_ID } from "@/constants";
 import { useAuthStore } from "@/stores/authStore";

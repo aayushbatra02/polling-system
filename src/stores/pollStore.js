@@ -10,6 +10,8 @@ export const usePollStore = defineStore("pollStore", () => {
     lastPage: false,
     pollDetails: {},
     showResultModal: false,
+    resultLabels: [],
+    resultValues:[]
   });
 
   const getPolls = async () => {
@@ -61,9 +63,16 @@ export const usePollStore = defineStore("pollStore", () => {
       if (res?.status === 200) {
         state.pollDetails = res?.data;
         state.showResultModal = true;
-      }
+        state.resultLabels = state.pollDetails.optionList?.map(
+          (option) => option.optionTitle
+        );
+    
+        state.resultValues = state.pollDetails.optionList?.map(
+          (option) => option.totalVoteCount
+        );      }
     } catch (e) {
       console.log(e);
+      return null
     }
   };
 

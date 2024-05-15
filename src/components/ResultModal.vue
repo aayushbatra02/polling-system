@@ -12,7 +12,7 @@
         icon="basil:cross-solid"
       />
       <div class="text-lg font-bold text-center mb-4">
-        {{ pollDetails.title }}
+        {{ pollDetails?.title }}
       </div>
       <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
     </div>
@@ -22,11 +22,7 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 import { Icon } from "@iconify/vue";
-
-const props = defineProps(["pollDetails, barLabels, barValues"]);
-defineEmits(["closeResultModal"]);
 import { Bar } from "vue-chartjs";
-
 import {
   Chart as ChartJS,
   Title,
@@ -36,6 +32,9 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+
+const props = defineProps(["pollDetails", "resultLabels", "resultValues", "labelText"]);
+defineEmits(["closeResultModal"]);
 
 ChartJS.register(
   Title,
@@ -47,8 +46,8 @@ ChartJS.register(
 );
 
 const chartData = {
-  labels: props.barLables,
-  datasets: [{ label: "Vote Count", data: props.barValues }],
+  labels: props.resultLabels,
+  datasets: [{ label: props.labelText, data: props.resultValues }],
 };
 
 const chartOptions = {

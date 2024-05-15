@@ -1,6 +1,6 @@
-import { useSignupStore } from "@/stores/signupStore";
 import { storeToRefs } from "pinia";
 import { onMounted, reactive, ref } from "vue";
+import { useSignupStore } from "@/stores/signupStore";
 import router from "@/router/index.js";
 import { authenticate } from "@/utils/authenticate";
 

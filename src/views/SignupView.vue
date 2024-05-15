@@ -124,11 +124,12 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import SpinningLoader from "@/components/SpinningLoader.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { useSignup } from "@/composables/signup";
-import { Icon } from "@iconify/vue";
 import { useTogglePassword } from "@/composables/togglePassword";
+
 const {
   onSignup,
   signupData,

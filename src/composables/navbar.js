@@ -1,7 +1,8 @@
-import router from "@/router";
-import { useAuthStore } from "@/stores/authStore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
+import router from "@/router";
+import { useAuthStore } from "@/stores/authStore";
+
 
 export const useNavbar = () => {
   const authStore = useAuthStore();

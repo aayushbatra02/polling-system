@@ -24,20 +24,21 @@
       <result-modal
         v-if="showResultModal"
         :poll-details="pollDetails"
+        :result-labels="resultLabels"
+        :result-values="resultValues"
         @close-result-modal="closeResultModal"
-        :bar-labels="barLables"
-        :bar-values="barValues"
+        labelText="vote-count"
       />
     </div>
   </div>
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import ResultModal from "@/components/ResultModal.vue";
 import SinglePoll from "@/components/SinglePoll.vue";
 import SpinningLoader from "@/components/SpinningLoader.vue";
 import { usePollList } from "@/composables/pollList";
-import { onMounted } from "vue";
 
 const {
   pollList,
@@ -48,9 +49,10 @@ const {
   pollDetails,
   showResultModal,
   closeResultModal,
-  barLables,
-  barValues,
+  resultLabels,
+  resultValues,
 } = usePollList();
+
 onMounted(() => {
   getPolls();
 });

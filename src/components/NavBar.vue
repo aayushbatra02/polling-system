@@ -53,9 +53,9 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import { useNavbar } from "@/composables/navbar";
 import { ADMIN_ID } from "@/constants";
-import { Icon } from "@iconify/vue";
 const {
   user,
   navlinks,

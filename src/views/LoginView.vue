@@ -60,10 +60,10 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import SpinningLoader from "@/components/SpinningLoader.vue";
 import { useLogin } from "@/composables/login";
 import { useTogglePassword } from "@/composables/togglePassword";
-import { Icon } from "@iconify/vue";
 
 const {
   loginData,

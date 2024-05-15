@@ -1,6 +1,6 @@
-import { useAuthStore } from "@/stores/authStore";
 import axios from "axios";
 import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/authStore";
 
 const axiosInterceptor = () => {
   const { token } = storeToRefs(useAuthStore());

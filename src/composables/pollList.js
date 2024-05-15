@@ -1,10 +1,19 @@
-import { usePollStore } from "@/stores/pollStore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
+import { usePollStore } from "@/stores/pollStore";
+
 export const usePollList = () => {
   const pollStore = usePollStore();
-  const { pollList, loading, pageNo, lastPage, pollDetails, showResultModal } =
-    storeToRefs(pollStore);
+  const {
+    pollList,
+    loading,
+    pageNo,
+    lastPage,
+    pollDetails,
+    showResultModal,
+    resultLabels,
+    resultValues,
+  } = storeToRefs(pollStore);
   const { getPolls, votePoll, handleDeletePoll, getSinglePoll } = pollStore;
   const pollSubmissionError = ref(null);
   const isPollSubmitted = ref(false);
@@ -34,20 +43,13 @@ export const usePollList = () => {
     handleDeletePoll(pollId);
   };
 
-  const showResult = (pollId) => {
+  const showResult = async (pollId) => {
     getSinglePoll(pollId);
   };
 
   const closeResultModal = () => {
     showResultModal.value = false;
   };
-
-  const barLables = pollDetails?.optionList?.map(
-    (option) => option.optionTitle
-  );
-  const barValues = pollDetails?.optionList?.map(
-    (option) => option.totalVoteCount
-  );
 
   return {
     pollList,
@@ -63,7 +65,7 @@ export const usePollList = () => {
     pollDetails,
     showResultModal,
     closeResultModal,
-    barLables,
-    barValues
+    resultLabels,
+    resultValues,
   };
 };

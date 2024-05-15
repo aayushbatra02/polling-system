@@ -6,10 +6,11 @@
 </template>
 
 <script setup>
-import NavBar from "./components/NavBar.vue";
-import { useAuthStore } from "./stores/authStore";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+import NavBar from "./components/NavBar.vue";
+import { useAuthStore } from "./stores/authStore";
+
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 const route = useRoute();
