@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-backgroungColor min-h-[100vh] h-max flex justify-center items-center"
+    class="bg-backgroundColor min-h-[100vh] h-max flex justify-center items-center"
   >
     <form
       @submit.prevent="onSignup"
@@ -118,17 +118,19 @@
       heading="Congratulations!!!"
       description="You have Signed up successfully"
       @on-confirm-button="routeToLogin"
+      confirmButtonText="OK"
       v-if="isUserSignedup"
     />
   </div>
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import SpinningLoader from "@/components/SpinningLoader.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { useSignup } from "@/composables/signup";
-import { Icon } from "@iconify/vue";
 import { useTogglePassword } from "@/composables/togglePassword";
+
 const {
   onSignup,
   signupData,

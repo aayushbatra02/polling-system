@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import { storeToRefs } from "pinia";
 import NotFoundVue from "@/views/NotFoundView.vue";
 import { useAuthStore } from "@/stores/authStore";
-import { storeToRefs } from "pinia";
 
 const routes = [
   {

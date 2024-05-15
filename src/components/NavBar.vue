@@ -1,11 +1,11 @@
 <template>
   <div>
     <div
-      class="bg-backgroungColor flex justify-between items-center px-4 relative h-[5rem] md:h-max"
+      class="bg-backgroundColor flex justify-between items-center px-4 relative h-[5rem] md:h-max"
     >
       <div
         :class="[showNavLinks ? 'flex' : 'hidden']"
-        class="gap-4 md:gap-6 px-6 md:flex flex-col md:flex-row absolute md:static top-[5rem] left-0 right-0 bg-backgroungColor shadow-inner top-0 shadow-lg md:shadow-none py-4"
+        class="gap-4 md:gap-6 px-6 md:flex flex-col md:flex-row absolute md:static top-[5rem] left-0 right-0 bg-backgroundColor shadow-inner top-0 shadow-lg md:shadow-none py-4"
       >
         <div v-for="(link, id) in navlinks" :key="id">
           <RouterLink
@@ -25,7 +25,7 @@
       </div>
       <button
         @click="handleLogoutModal"
-        class="flex gap-3 md:gap-6 items-center py-3 md:px-6"
+        class="flex gap-3 items-center py-3 md:px-6"
       >
         <Icon
           class="text-black h-10 w-10 md:w-12 md:h-12"
@@ -43,7 +43,7 @@
       <button
         @click="logoutUser"
         v-if="showLogout"
-        class="bg-backgroungColor p-4 w-[100vw] md:w-[15rem] py-4 absolute md:text-lg flex justify-center align-center gap-2 hover:bg-blue hover:text-white rounded-bl shadow-inner shadow-lg"
+        class="bg-backgroundColor p-4 w-[100vw] md:w-[15rem] py-4 absolute md:text-lg flex justify-center align-center gap-2 hover:bg-blue hover:text-white rounded-bl shadow-inner shadow-lg"
       >
         <Icon icon="material-symbols:logout" class="w-8 h-8 text-red" />
         <div>LOGOUT</div>
@@ -53,9 +53,9 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
 import { useNavbar } from "@/composables/navbar";
 import { ADMIN_ID } from "@/constants";
-import { Icon } from "@iconify/vue";
 const {
   user,
   navlinks,
