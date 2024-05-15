@@ -33,6 +33,7 @@ export const useNavbar = () => {
   const logoutUser = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("submittedPolls");
     user.value = null
     router.push("/login");
   };

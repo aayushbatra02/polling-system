@@ -5,7 +5,6 @@ import { usePollStore } from "@/stores/pollStore";
 export const usePollList = () => {
   const pollStore = usePollStore();
   const {
-    pollList,
     loading,
     pageNo,
     lastPage,
@@ -17,6 +16,7 @@ export const usePollList = () => {
   const { getPolls, votePoll, handleDeletePoll, getSinglePoll } = pollStore;
   const pollSubmissionError = ref(null);
   const isPollSubmitted = ref(false);
+  const showDeleteModal = ref(false);
 
   const submitPoll = (optionId, pollId) => {
     let submittedPolls = JSON.parse(localStorage.getItem("submittedPolls"));
@@ -39,8 +39,9 @@ export const usePollList = () => {
     getPolls();
   };
 
-  const deletePoll = (pollId) => {
-    handleDeletePoll(pollId);
+  const deletePoll = () => {
+    handleDeletePoll();
+    showDeleteModal.value = false;
   };
 
   const showResult = async (pollId) => {
@@ -51,8 +52,11 @@ export const usePollList = () => {
     showResultModal.value = false;
   };
 
+  const toggleDeleteModal = () => {
+    showDeleteModal.value = !showDeleteModal.value;
+  }
+
   return {
-    pollList,
     loading,
     submitPoll,
     getPolls,
@@ -67,5 +71,7 @@ export const usePollList = () => {
     closeResultModal,
     resultLabels,
     resultValues,
+    toggleDeleteModal,
+    showDeleteModal
   };
 };

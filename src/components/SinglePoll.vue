@@ -1,8 +1,8 @@
 <template>
   <div
-    class="mb-8 border-2 border-blue p-4 pt-14 md:p-8 rounded-lg bg-lightGray relative"
+    class="border-2 border-blue p-4 pt-14 pb-8 rounded-lg bg-lightGray relative"
   >
-    <div class="mb-4 flex gap-4">
+    <div class="mb-4 flex gap-4 h-12">
       <div>{{ index + 1 }}.</div>
       <div>{{ poll.title }}</div>
     </div>
@@ -43,9 +43,9 @@
       >
         <Icon class="w-6 h-6 text-blue" icon="ic:sharp-edit" />
         <Icon
-          @click="deletePoll(poll.id)"
           class="w-6 h-6 text-red"
           icon="material-symbols:delete"
+          @click="showDeleteModal"
         />
         <Icon
           @click="showResult(poll.id)"
@@ -60,22 +60,20 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import { storeToRefs } from "pinia";
-import { defineProps, onMounted, ref } from "vue";
+import { defineProps, onMounted, ref, defineEmits } from "vue";
 import { usePollList } from "@/composables/pollList";
 import { ADMIN_ID } from "@/constants";
 import { useAuthStore } from "@/stores/authStore";
+import { usePollStore } from "@/stores/pollStore";
 
 const props = defineProps(["poll", "index"]);
+const emit = defineEmits(["toggleDeleteModal"]);
 
 const selectedOptionID = ref(null);
-const {
-  submitPoll,
-  pollSubmissionError,
-  isPollSubmitted,
-  deletePoll,
-  showResult,
-} = usePollList();
+const { submitPoll, pollSubmissionError, isPollSubmitted, showResult } =
+  usePollList();
 const { user } = storeToRefs(useAuthStore());
+const { deletePollId } = storeToRefs(usePollStore());
 
 onMounted(() => {
   const submittedPolls = JSON.parse(localStorage.getItem("submittedPolls"));
@@ -89,5 +87,10 @@ onMounted(() => {
 const setSelectedOptionId = (id) => {
   pollSubmissionError.value = null;
   selectedOptionID.value = id;
+};
+
+const showDeleteModal = () => {
+  emit("toggleDeleteModal");
+  deletePollId.value = props.poll?.id;
 };
 </script>

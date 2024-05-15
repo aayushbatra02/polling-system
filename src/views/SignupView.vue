@@ -118,6 +118,7 @@
       heading="Congratulations!!!"
       description="You have Signed up successfully"
       @on-confirm-button="routeToLogin"
+      confirmButtonText="OK"
       v-if="isUserSignedup"
     />
   </div>
