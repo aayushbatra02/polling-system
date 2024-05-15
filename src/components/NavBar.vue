@@ -25,7 +25,7 @@
       </div>
       <button
         @click="handleLogoutModal"
-        class="flex gap-3 md:gap-6 items-center py-3 md:px-6"
+        class="flex gap-3 items-center py-3 md:px-6"
       >
         <Icon
           class="text-black h-10 w-10 md:w-12 md:h-12"

@@ -2,11 +2,12 @@ import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
-
+import { usePollStore } from "@/stores/pollStore";
 
 export const useNavbar = () => {
   const authStore = useAuthStore();
   const { user } = storeToRefs(authStore);
+  const { pageNo, lastPage } = storeToRefs(usePollStore());
   const showLogout = ref(false);
   const showNavLinks = ref(false);
   const navlinks = [
@@ -34,7 +35,9 @@ export const useNavbar = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("submittedPolls");
-    user.value = null
+    user.value = null;
+    pageNo.value = 1;
+    lastPage.value - false;
     router.push("/login");
   };
 
