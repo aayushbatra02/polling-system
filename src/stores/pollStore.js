@@ -12,7 +12,6 @@ export const usePollStore = defineStore("pollStore", () => {
     showResultModal: false,
     resultLabels: [],
     resultValues: [],
-    deletePollId: null,
   });
 
   const getPolls = async () => {
@@ -46,14 +45,14 @@ export const usePollStore = defineStore("pollStore", () => {
     }
   };
 
-  const handleDeletePoll = async () => {
+  const handleDeletePoll = async (pollId) => {
+    console.log(pollId)
     try {
-      await axios.delete(`poll/${state.deletePollId}`);
+      await axios.delete(`poll/${pollId}`);
       const updatedPollList = state.pollList.filter(
-        (poll) => poll?.id !== state.deletePollId
+        (poll) => poll?.id !== pollId
       );
       state.pollList = updatedPollList;
-      state.deletePollId = null
     } catch (e) {
       console.log(e);
     }

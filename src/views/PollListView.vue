@@ -12,6 +12,7 @@
           :poll="poll"
           :index="index"
           @toggle-delete-modal="toggleDeleteModal"
+          @set-delete-poll-Id="setDeletePollId"
         />
       </div>
       <div class="flex justify-center mt-8">
@@ -36,8 +37,8 @@
         description="Are you sure you want to delete?"
         @on-confirm-button="deletePoll"
         @close-modal="toggleDeleteModal"
-        confirmButtonText="Ok"
-        :popup="true"
+        confirmButtonText="Delete"
+        :isClosable="true"
         v-if="showDeleteModal"
       />
     </div>
@@ -62,6 +63,7 @@ const {
   showDeleteModal,
   toggleDeleteModal,
   deletePoll,
+  setDeletePollId
 } = usePollList();
 
 const {
@@ -76,6 +78,7 @@ const {
 
 onMounted(() => {
   getPolls();
+  console.log(pollList.value)
 });
 </script>
 

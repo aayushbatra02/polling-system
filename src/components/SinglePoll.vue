@@ -15,24 +15,21 @@
             type="radio"
             :name="option.pollId"
             :disabled="isPollSubmitted"
-            :checked="isPollSubmitted?.optionId === option.id"
+            :checked="selectedOption === option.id"
           />{{ option.optionTitle }}</label
         >
       </div>
-    </div>
-    <div class="text-red mb-4" v-if="pollSubmissionError">
-      {{ pollSubmissionError }}
     </div>
     <div class="flex justify-center">
       <button
         @click="submitPoll(selectedOptionID, poll.id)"
         class="border px-4 border-blue py-1 rounded"
         :class="[
-          isPollSubmitted
+          isPollSubmitted || !selectedOptionID
             ? 'bg-backgroundColor cursor-no-drop text-blue'
             : 'hover:bg-[rgba(0,0,0,0)] hover:text-blue bg-blue text-white',
         ]"
-        :disabled="isPollSubmitted"
+        :disabled="isPollSubmitted || !selectedOptionID"
       >
         <span v-if="isPollSubmitted">Submitted</span>
         <span v-else> SUBMIT </span>
@@ -64,33 +61,32 @@ import { defineProps, onMounted, ref, defineEmits } from "vue";
 import { usePollList } from "@/composables/pollList";
 import { ADMIN_ID } from "@/constants";
 import { useAuthStore } from "@/stores/authStore";
-import { usePollStore } from "@/stores/pollStore";
 
 const props = defineProps(["poll", "index"]);
-const emit = defineEmits(["toggleDeleteModal"]);
+const emit = defineEmits(["toggleDeleteModal", "setDeletePollId"]);
 
 const selectedOptionID = ref(null);
-const { submitPoll, pollSubmissionError, isPollSubmitted, showResult } =
-  usePollList();
+const { submitPoll, isPollSubmitted, showResult } = usePollList();
 const { user } = storeToRefs(useAuthStore());
-const { deletePollId } = storeToRefs(usePollStore());
+const submittedPolls = ref(null);
+const selectedOption = ref(null);
 
 onMounted(() => {
-  const submittedPolls = JSON.parse(localStorage.getItem("submittedPolls"));
-  if (submittedPolls) {
-    isPollSubmitted.value = submittedPolls.find(
-      (poll) => poll.pollId === props.poll.id
-    );
+  submittedPolls.value = JSON.parse(localStorage.getItem("submittedPolls"));
+  if (submittedPolls.value) {
+    selectedOption.value = submittedPolls.value[props.poll.id];
+    if (selectedOption.value) {
+      isPollSubmitted.value = true;
+    }
   }
 });
 
 const setSelectedOptionId = (id) => {
-  pollSubmissionError.value = null;
   selectedOptionID.value = id;
 };
 
 const showDeleteModal = () => {
   emit("toggleDeleteModal");
-  deletePollId.value = props.poll?.id;
+  emit("setDeletePollId", props.poll?.id);
 };
 </script>

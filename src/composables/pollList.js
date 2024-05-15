@@ -7,24 +7,19 @@ export const usePollList = () => {
   const { pageNo, showResultModal } = storeToRefs(pollStore);
 
   const { getPolls, votePoll, handleDeletePoll, getSinglePoll } = pollStore;
-  const pollSubmissionError = ref(null);
   const isPollSubmitted = ref(false);
   const showDeleteModal = ref(false);
+  const deletePollId = ref(null);
 
   const submitPoll = (optionId, pollId) => {
     let submittedPolls = JSON.parse(localStorage.getItem("submittedPolls"));
     if (!submittedPolls) {
-      submittedPolls = [];
+      submittedPolls = {};
     }
-    if (optionId === null) {
-      pollSubmissionError.value = "Please Select an Option before submitting";
-    } else {
-      pollSubmissionError.value = null;
-      submittedPolls.push({ pollId, optionId });
-      localStorage.setItem("submittedPolls", JSON.stringify(submittedPolls));
-      isPollSubmitted.value = { pollId, optionId };
-      votePoll(optionId);
-    }
+    submittedPolls[pollId] = optionId;
+    localStorage.setItem("submittedPolls", JSON.stringify(submittedPolls));
+    isPollSubmitted.value = true;
+    votePoll(optionId);
   };
 
   const loadMorePolls = () => {
@@ -33,7 +28,7 @@ export const usePollList = () => {
   };
 
   const deletePoll = () => {
-    handleDeletePoll();
+    handleDeletePoll(deletePollId.value);
     showDeleteModal.value = false;
   };
 
@@ -49,10 +44,13 @@ export const usePollList = () => {
     showDeleteModal.value = !showDeleteModal.value;
   };
 
+  const setDeletePollId = (id) => {
+    deletePollId.value = id;
+  };
+
   return {
     submitPoll,
     getPolls,
-    pollSubmissionError,
     isPollSubmitted,
     loadMorePolls,
     deletePoll,
@@ -61,5 +59,6 @@ export const usePollList = () => {
     closeResultModal,
     toggleDeleteModal,
     showDeleteModal,
+    setDeletePollId,
   };
 };
