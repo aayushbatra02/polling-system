@@ -12,9 +12,9 @@ export const useNavbar = () => {
   const showNavLinks = ref(false);
   const navlinks = [
     { text: "Polls", route: "/", forBoth: true },
-    { text: "Add Poll", route: "/" },
-    { text: "Create User", route: "/" },
-    { text: "List Users", route: "/" },
+    { text: "Add Poll", route: "/add-poll" },
+    { text: "Create User", route: "/create-user" },
+    { text: "List Users", route: "/list-users" },
   ];
 
   const toggleNavlinks = () => {

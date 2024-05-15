@@ -5,16 +5,14 @@
     >
       <div
         :class="[showNavLinks ? 'flex' : 'hidden']"
-        class="gap-4 md:gap-6 px-6 md:flex flex-col md:flex-row absolute md:static top-[5rem] left-0 right-0 bg-backgroundColor shadow-inner top-0 shadow-lg md:shadow-none py-4"
+        class="gap-4 md:gap-6 px-6 md:flex flex-col md:flex-row absolute md:static top-[5rem] left-0 right-0 bg-backgroundColor shadow-inner top-0 shadow-lg md:shadow-none py-4 z-10"
       >
         <div v-for="(link, id) in navlinks" :key="id">
           <RouterLink
             v-if="link.forBoth || user?.roleId === ADMIN_ID"
             :to="link.route"
-            :class="{
-              'font-bold text-lg md:text-xl border-b-2 border-blue w-max':
-                id === 0,
-            }"
+            active-class="font-bold text-lg md:text-xl border-b-2 border-blue"
+            class="w-max"
           >
             {{ link.text }}
           </RouterLink>
