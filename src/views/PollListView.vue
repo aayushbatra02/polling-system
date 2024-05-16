@@ -78,7 +78,6 @@ const {
 
 onMounted(() => {
   getPolls();
-  console.log(pollList.value)
 });
 </script>
 

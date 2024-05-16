@@ -4,8 +4,8 @@
       class="bg-backgroundColor flex justify-between items-center px-4 relative h-[5rem] md:h-max"
     >
       <div
-        :class="[showNavLinks ? 'flex' : 'hidden']"
-        class="gap-4 md:gap-6 px-6 md:flex flex-col md:flex-row absolute md:static top-[5rem] left-0 right-0 bg-backgroundColor shadow-inner top-0 shadow-lg md:shadow-none py-4 z-10"
+        :class="[showNavLinks ? 'flex z-10' : 'hidden']"
+        class="gap-4 md:gap-6 px-6 md:flex flex-col md:flex-row absolute md:static top-[5rem] left-0 right-0 bg-backgroundColor shadow-inner top-0 shadow-lg md:shadow-none py-4"
       >
         <div v-for="(link, id) in navlinks" :key="id">
           <RouterLink
@@ -13,6 +13,7 @@
             :to="link.route"
             active-class="font-bold text-lg md:text-xl border-b-2 border-blue"
             class="w-max"
+            @click="clearEditId(link.text)"
           >
             {{ link.text }}
           </RouterLink>
@@ -54,6 +55,7 @@
 import { Icon } from "@iconify/vue";
 import { useNavbar } from "@/composables/navbar";
 import { ADMIN_ID } from "@/constants";
+
 const {
   user,
   navlinks,
@@ -62,5 +64,6 @@ const {
   logoutUser,
   showNavLinks,
   toggleNavlinks,
+  clearEditId
 } = useNavbar();
 </script>

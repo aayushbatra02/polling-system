@@ -46,7 +46,6 @@ export const usePollStore = defineStore("pollStore", () => {
   };
 
   const handleDeletePoll = async (pollId) => {
-    console.log(pollId)
     try {
       await axios.delete(`poll/${pollId}`);
       const updatedPollList = state.pollList.filter(

@@ -6,7 +6,7 @@
       <div>{{ index + 1 }}.</div>
       <div>{{ poll.title }}</div>
     </div>
-    <div class="flex flex-col gap-4 mb-8 md:mb-4">
+    <div class="flex flex-col gap-4 mb-8 min-h-[10rem]">
       <div v-for="option in poll.optionList" :key="option.id">
         <label class="cursor-pointer">
           <input
@@ -20,7 +20,7 @@
         >
       </div>
     </div>
-    <div class="flex justify-center">
+    <div class="flex justify-center absolute bottom-4 left-0 right-0">
       <button
         @click="submitPoll(selectedOptionID, poll.id)"
         class="border px-4 border-blue py-1 rounded"
@@ -34,23 +34,27 @@
         <span v-if="isPollSubmitted">Submitted</span>
         <span v-else> SUBMIT </span>
       </button>
-      <button
-        class="absolute top-4 right-4 flex gap-3"
-        v-if="user?.roleId === ADMIN_ID"
-      >
-        <Icon class="w-6 h-6 text-blue" icon="ic:sharp-edit" />
-        <Icon
-          class="w-6 h-6 text-red"
-          icon="material-symbols:delete"
-          @click="showDeleteModal"
-        />
-        <Icon
-          @click="showResult(poll.id)"
-          class="w-6 h-6 text-blue"
-          icon="uis:graph-bar"
-        />
-      </button>
     </div>
+    <button
+      class="absolute top-4 right-4 flex gap-3"
+      v-if="user?.roleId === ADMIN_ID"
+    >
+      <Icon
+        class="w-6 h-6 text-blue"
+        icon="ic:sharp-edit"
+        @click="editPoll(poll)"
+      />
+      <Icon
+        class="w-6 h-6 text-red"
+        icon="material-symbols:delete"
+        @click="showDeleteModal"
+      />
+      <Icon
+        @click="showResult(poll.id)"
+        class="w-6 h-6 text-blue"
+        icon="uis:graph-bar"
+      />
+    </button>
   </div>
 </template>
 
@@ -61,6 +65,8 @@ import { defineProps, onMounted, ref, defineEmits } from "vue";
 import { usePollList } from "@/composables/pollList";
 import { ADMIN_ID } from "@/constants";
 import { useAuthStore } from "@/stores/authStore";
+import router from "@/router";
+import { useAddPollStore } from "@/stores/addPollStore";
 
 const props = defineProps(["poll", "index"]);
 const emit = defineEmits(["toggleDeleteModal", "setDeletePollId"]);
@@ -68,6 +74,7 @@ const emit = defineEmits(["toggleDeleteModal", "setDeletePollId"]);
 const selectedOptionID = ref(null);
 const { submitPoll, isPollSubmitted, showResult } = usePollList();
 const { user } = storeToRefs(useAuthStore());
+const { editPollDetails } = storeToRefs(useAddPollStore());
 const submittedPolls = ref(null);
 const selectedOption = ref(null);
 
@@ -88,5 +95,10 @@ const setSelectedOptionId = (id) => {
 const showDeleteModal = () => {
   emit("toggleDeleteModal");
   emit("setDeletePollId", props.poll?.id);
+};
+
+const editPoll = (poll) => {
+  router.push(`/edit-poll/${poll.id}`);
+  editPollDetails.value = poll;
 };
 </script>
