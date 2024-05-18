@@ -21,7 +21,7 @@ export const useAddPoll = () => {
     title: null,
     minOptionsError: null,
   });
-  const editPollDetails = ref({});
+  const editPollDetails = ref(null);
   const submitButtonText = ref("");
   const oldPollOptionLength = ref(null);
 
@@ -71,7 +71,7 @@ export const useAddPoll = () => {
   const isErrorPresent = () => {
     let isPresent = false;
     for (const key in errorMessage) {
-      if (errorMessage[key] && key !=='minOptionsError') {
+      if (errorMessage[key] && key !== "minOptionsError") {
         isPresent = true;
       }
     }
