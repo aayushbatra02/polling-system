@@ -20,7 +20,6 @@ const fromatString = (string) => {
   return formattedString;
 };
 
-
 export const authenticate = (fieldName, value, condition) => {
   fieldName = fromatString(fieldName);
   if (!value) {

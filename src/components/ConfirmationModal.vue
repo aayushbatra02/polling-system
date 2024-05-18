@@ -5,15 +5,15 @@
     @click.self="hideModal"
   >
     <div
-      class="bg-white px-[1.5rem] lg:px-[3rem] py-[2rem] lg:py-[4rem] rounded-lg flex justify-center items-center flex-col relative cursor-default"
+      class="bg-white w-[18rem] md:w-[25rem] px-[1rem] lg:px-[3rem] py-[2rem] lg:py-[4rem] rounded-lg flex justify-center items-center flex-col relative cursor-default"
     >
       <h1
-        class="text-lg lg:text-2xl font-bold text-red"
-        :class="[isClosable ? 'text-blue' : 'text-blue']"
+        class="text-lg lg:text-2xl font-bold"
+        :class="[isClosable ? 'text-red' : 'text-blue']"
       >
         {{ heading }}
       </h1>
-      <p class="mt-4 text-lg">{{ description }}</p>
+      <p class="mt-4 text-lg text-center">{{ description }}</p>
       <div class="flex gap-8">
         <button
           @click="$emit('onConfirmButton')"

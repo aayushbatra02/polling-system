@@ -31,7 +31,7 @@ export const useSignup = () => {
     await signupStore.getRoles();
   });
 
-  const validate = (field) => {
+  const validateInput = (field) => {
     showSignupError.value = false;
     if (validateSignupForm.value) {
       if (field === "confirmPassword") {
@@ -48,7 +48,7 @@ export const useSignup = () => {
   const onSignup = async () => {
     validateSignupForm.value = true;
     for (const key in signupData) {
-      validate(key);
+      validateInput(key);
     }
     if (
       !errorMessage.firstName &&
@@ -83,7 +83,7 @@ export const useSignup = () => {
     onSignup,
     signupData,
     errorMessage,
-    validate,
+    validateInput,
     roles,
     loading,
     error,

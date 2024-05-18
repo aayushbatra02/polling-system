@@ -1,8 +1,9 @@
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 import { usePollStore } from "@/stores/pollStore";
+import { useRoute } from "vue-router";
 
 export const useNavbar = () => {
   const authStore = useAuthStore();
@@ -10,12 +11,23 @@ export const useNavbar = () => {
   const { pageNo, lastPage } = storeToRefs(usePollStore());
   const showLogout = ref(false);
   const showNavLinks = ref(false);
-  const navlinks = [
-    { text: "Polls", route: "/", forBoth: true },
-    { text: "Add Poll", route: "/" },
-    { text: "Create User", route: "/" },
-    { text: "List Users", route: "/" },
-  ];
+  let navlinks = ref([]);
+
+  const route = useRoute();
+  const editId = ref(null);
+
+  watchEffect(() => {
+    editId.value = route.params.id;
+    navlinks.value = [
+      { text: "Polls", route: "/", forBoth: true },
+      {
+        text: editId.value ? "Edit Poll" : "Add Poll",
+        route: editId.value ? `/edit-poll/${editId.value}` : "/add-poll",
+      },
+      { text: "Create User", route: "/create-user" },
+      { text: "List Users", route: "/list-users" },
+    ];
+  });
 
   const toggleNavlinks = () => {
     showNavLinks.value = !showNavLinks.value;
@@ -41,6 +53,12 @@ export const useNavbar = () => {
     router.push("/login");
   };
 
+  const clearEditId = (linkText) => {
+    if (linkText !== "Add Poll" && linkText !== "Edit Poll") {
+      editId.value = null;
+    }
+  };
+
   return {
     user,
     navlinks,
@@ -49,5 +67,6 @@ export const useNavbar = () => {
     logoutUser,
     showNavLinks,
     toggleNavlinks,
+    clearEditId,
   };
 };

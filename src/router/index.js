@@ -19,6 +19,17 @@ const routes = [
     name: "Signup",
     component: () => import("@/views/SignupView.vue"),
   },
+
+  {
+    path: "/add-poll",
+    name: "AddPoll",
+    component: () => import("@/views/AddPollView.vue"),
+  },
+  {
+    path: "/edit-poll/:id",
+    name: "EditPoll",
+    component: () => import("@/views/AddPollView.vue"),
+  },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",

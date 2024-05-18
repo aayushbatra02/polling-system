@@ -24,12 +24,15 @@ export const usePollStore = defineStore("pollStore", () => {
         }
         if (state.pageNo === 1) {
           state.pollList = res?.data?.rows;
+          return state.pollList;
         } else {
           state.pollList = [...state.pollList, ...res?.data?.rows];
+          return state.pollList;
         }
       }
     } catch (e) {
       console.log(e?.response?.data?.message);
+      return null;
     } finally {
       state.loading = false;
     }
@@ -46,7 +49,6 @@ export const usePollStore = defineStore("pollStore", () => {
   };
 
   const handleDeletePoll = async (pollId) => {
-    console.log(pollId)
     try {
       await axios.delete(`poll/${pollId}`);
       const updatedPollList = state.pollList.filter(

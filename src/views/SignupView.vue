@@ -14,7 +14,7 @@
           type="text"
           placeholder="First Name"
           v-model.trim="signupData.firstName"
-          @input="validate('firstName', signupData.firstName)"
+          @input="validateInput('firstName', signupData.firstName)"
         />
         <p class="text-red">{{ errorMessage.firstName }}</p>
       </div>
@@ -24,7 +24,7 @@
           type="text"
           placeholder="Last Name"
           v-model.trim="signupData.lastName"
-          @input="validate('lastName', signupData.lastName)"
+          @input="validateInput('lastName', signupData.lastName)"
         />
         <p class="text-red">{{ errorMessage.lastName }}</p>
       </div>
@@ -34,7 +34,7 @@
           type="email"
           placeholder="Email"
           v-model.trim="signupData.email"
-          @input="validate('email', signupData.email)"
+          @input="validateInput('email', signupData.email)"
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
@@ -42,7 +42,7 @@
         <select
           class="p-2 border border-black rounded w-[100%] bg-white"
           v-model="signupData.role"
-          @change="validate('role', signupData.role)"
+          @change="validateInput('role', signupData.role)"
         >
           <option disabled value="">Please Select a Role</option>
           <option v-for="role in roles" :value="role.id" :key="role.id">
@@ -57,7 +57,7 @@
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Password"
             v-model="signupData.password"
-            @input="validate('password', signupData.password)"
+            @input="validateInput('password', signupData.password)"
             :type="showPassword ? 'text' : 'password'"
           />
           <Icon
@@ -81,7 +81,7 @@
             class="md:p-2 border-b border-black outline-none w-[100%]"
             placeholder="Confirm Password"
             v-model="signupData.confirmPassword"
-            @input="validate('confirmPassword')"
+            @input="validateInput('confirmPassword')"
             :type="showConfirmPassword ? 'text' : 'password'"
           />
           <Icon
@@ -136,7 +136,7 @@ const {
   signupData,
   errorMessage,
   roles,
-  validate,
+  validateInput,
   routeToLogin,
   loading,
   error,
