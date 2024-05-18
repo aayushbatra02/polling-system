@@ -1,8 +1,9 @@
 import router from "@/router";
 import { useAddPollStore } from "@/stores/addPollStore";
+import { usePollStore } from "@/stores/pollStore";
 import { authenticate } from "@/utils/authenticate";
-import { storeToRefs } from "pinia";
 import { onMounted, reactive, ref } from "vue";
+import { useRoute } from "vue-router";
 
 export const useAddPoll = () => {
   const {
@@ -13,16 +14,16 @@ export const useAddPoll = () => {
     handleEditPollOption,
   } = useAddPollStore();
 
-  const { editPollDetails } = storeToRefs(useAddPollStore());
-
   const title = ref("");
   const optionList = ref([{ optionTitle: "" }, { optionTitle: "" }]);
   const validateForm = ref(false);
   const errorMessage = reactive({
     title: null,
+    minOptionsError: null,
   });
+  const editPollDetails = ref({});
   const submitButtonText = ref("");
-  const oldPollOptionLength = ref(editPollDetails?.value?.optionList.length);
+  const oldPollOptionLength = ref(null);
 
   const clearOptionsError = () => {
     for (const key in errorMessage) {
@@ -33,6 +34,7 @@ export const useAddPoll = () => {
   };
 
   const addPollOption = () => {
+    errorMessage.minOptionsError = null;
     optionList.value.push({ optionTitle: "" });
     clearOptionsError();
   };
@@ -55,6 +57,13 @@ export const useAddPoll = () => {
     }
   };
 
+  const validateMinOptions = (noOfOptions) => {
+    if (optionList.value.length < noOfOptions) {
+      console.log("Here");
+      errorMessage.minOptionsError = `Minimum ${noOfOptions} Options Required`;
+    }
+  };
+
   const isErrorPresent = () => {
     let isPresent = false;
     for (const key in errorMessage) {
@@ -67,6 +76,7 @@ export const useAddPoll = () => {
   const submitPoll = async () => {
     validateForm.value = true;
     validateInput("title", title.value, 10);
+    validateMinOptions(2);
     for (let i = 0; i < optionList.value.length; i++) {
       validateInput(`option ${i + 1}`, optionList?.value[i]?.optionTitle);
     }
@@ -76,6 +86,7 @@ export const useAddPoll = () => {
         if (title.value !== editPollDetails.value.title) {
           handlePollTitleUpdate(editPollDetails.value.id, { title: title.value });
         }
+
         //add poll options
         const newPollOptionLength = optionList.value.length;
         if (newPollOptionLength > oldPollOptionLength.value) {
@@ -104,8 +115,15 @@ export const useAddPoll = () => {
     }
   };
 
-  onMounted(() => {
-    if (editPollDetails.value) {
+  onMounted(async () => {
+    const route = useRoute();
+    const editId = route.params.id;
+
+    if (editId) {
+      const { getPolls } = usePollStore();
+      const pollList = await getPolls();
+      editPollDetails.value = pollList.find((poll) => poll.id === Number(editId));
+      oldPollOptionLength.value = editPollDetails?.value?.optionList?.length;
       title.value = editPollDetails.value.title;
       optionList.value = [...editPollDetails.value.optionList];
       submitButtonText.value = "Edit Poll";

@@ -3,12 +3,11 @@ import { ref, watchEffect } from "vue";
 import router from "@/router";
 import { useAuthStore } from "@/stores/authStore";
 import { usePollStore } from "@/stores/pollStore";
-import { useAddPollStore } from "@/stores/addPollStore";
+import { useRoute } from "vue-router";
 
 export const useNavbar = () => {
   const authStore = useAuthStore();
   const { user } = storeToRefs(authStore);
-  const { editPollDetails } = storeToRefs(useAddPollStore());
   const { pageNo, lastPage } = storeToRefs(usePollStore());
   const showLogout = ref(false);
   const showNavLinks = ref(false);
@@ -19,11 +18,15 @@ export const useNavbar = () => {
     { text: "List Users", route: "/" },
   ]);
 
+  const route = useRoute()
+  const editId = ref(null)
+
   watchEffect(() => {
-    if (editPollDetails.value) {
+    editId.value = route.params.id
+    if (editId.value) {
       navlinks.value = [
         { text: "Polls", route: "/", forBoth: true },
-        { text: "Edit Poll", route: `/edit-poll/${editPollDetails.value.id}` },
+        { text: "Edit Poll", route: `/edit-poll/${editId.value}` },
         { text: "Create User", route: "/create-user" },
         { text: "List Users", route: "/list-users" },
       ];
@@ -61,9 +64,9 @@ export const useNavbar = () => {
     router.push("/login");
   };
 
-  const clearEditDetails = (linkText) => {
+  const clearEditId = (linkText) => {
     if (linkText !== "Add Poll" && linkText !== "Edit Poll") {
-      editPollDetails.value = null;
+      editId.value = null;
     }
   };
 
@@ -75,6 +78,6 @@ export const useNavbar = () => {
     logoutUser,
     showNavLinks,
     toggleNavlinks,
-    clearEditDetails,
+    clearEditId,
   };
 };

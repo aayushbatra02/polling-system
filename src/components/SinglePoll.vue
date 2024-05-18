@@ -72,7 +72,6 @@ import { usePollList } from "@/composables/pollList";
 import { ADMIN_ID } from "@/constants";
 import { useAuthStore } from "@/stores/authStore";
 import router from "@/router";
-import { useAddPollStore } from "@/stores/addPollStore";
 
 const props = defineProps(["poll", "index"]);
 const emit = defineEmits(["toggleDeleteModal", "setDeletePollId"]);
@@ -80,7 +79,6 @@ const emit = defineEmits(["toggleDeleteModal", "setDeletePollId"]);
 const selectedOptionID = ref(null);
 const { submitPoll, isPollSubmitted, showResult } = usePollList();
 const { user } = storeToRefs(useAuthStore());
-const { editPollDetails } = storeToRefs(useAddPollStore());
 const submittedPolls = ref(null);
 const selectedOption = ref(null);
 
@@ -105,6 +103,5 @@ const showDeleteModal = () => {
 
 const editPoll = (poll) => {
   router.push(`/edit-poll/${poll.id}`);
-  editPollDetails.value = poll;
 };
 </script>

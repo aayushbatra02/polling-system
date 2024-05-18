@@ -6,7 +6,6 @@ export const useAddPollStore = defineStore("addPollStore", () => {
   const state = reactive({
     test: 0,
     loading: false,
-    editPollDetails: null,
   });
 
   const handleAddPoll = async (poll) => {
