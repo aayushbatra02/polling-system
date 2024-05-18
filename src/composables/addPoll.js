@@ -40,7 +40,7 @@ export const useAddPoll = () => {
   };
 
   const deletePollOption = (id) => {
-    validateMinOptions(2);
+    validateMinOptions();
     if (!errorMessage.minOptionsError) {
       if (editPollDetails.value) {
         if (id < oldPollOptionLength.value) {
@@ -62,9 +62,9 @@ export const useAddPoll = () => {
     }
   };
 
-  const validateMinOptions = (noOfOptions) => {
-    if (optionList.value.length <= noOfOptions) {
-      errorMessage.minOptionsError = `Minimum ${noOfOptions} Options Required`;
+  const validateMinOptions = () => {
+    if (optionList.value.length <= 2) {
+      errorMessage.minOptionsError = `Minimum Two Options Required`;
     }
   };
 
