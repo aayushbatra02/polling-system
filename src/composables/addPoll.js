@@ -40,15 +40,20 @@ export const useAddPoll = () => {
   };
 
   const deletePollOption = (id) => {
-    if (editPollDetails.value) {
-      if (id < oldPollOptionLength.value) {
-        const deletedOptionId = editPollDetails.value.optionList[id].id;
-        handleDeletePollOption(deletedOptionId);
+    validateMinOptions(2);
+    if (!errorMessage.minOptionsError) {
+      if (editPollDetails.value) {
+        if (id < oldPollOptionLength.value) {
+          const deletedOptionId = editPollDetails.value.optionList[id].id;
+          handleDeletePollOption(deletedOptionId);
+        }
       }
+      oldPollOptionLength.value = oldPollOptionLength.value - 1;
+      optionList.value = optionList.value.filter(
+        (option, index) => index !== id
+      );
+      clearOptionsError();
     }
-    oldPollOptionLength.value = oldPollOptionLength.value - 1;
-    optionList.value = optionList.value.filter((option, index) => index !== id);
-    clearOptionsError();
   };
 
   const validateInput = (field, value, condition) => {
@@ -58,8 +63,7 @@ export const useAddPoll = () => {
   };
 
   const validateMinOptions = (noOfOptions) => {
-    if (optionList.value.length < noOfOptions) {
-      console.log("Here");
+    if (optionList.value.length <= noOfOptions) {
       errorMessage.minOptionsError = `Minimum ${noOfOptions} Options Required`;
     }
   };
@@ -67,7 +71,7 @@ export const useAddPoll = () => {
   const isErrorPresent = () => {
     let isPresent = false;
     for (const key in errorMessage) {
-      if (errorMessage[key]) {
+      if (errorMessage[key] && key !=='minOptionsError') {
         isPresent = true;
       }
     }
@@ -76,15 +80,16 @@ export const useAddPoll = () => {
   const submitPoll = async () => {
     validateForm.value = true;
     validateInput("title", title.value, 10);
-    validateMinOptions(2);
     for (let i = 0; i < optionList.value.length; i++) {
       validateInput(`option ${i + 1}`, optionList?.value[i]?.optionTitle);
     }
     if (!isErrorPresent()) {
       if (editPollDetails.value) {
         //update poll title
-        if (title.value !== editPollDetails.value.title) {
-          handlePollTitleUpdate(editPollDetails.value.id, { title: title.value });
+        if (title.value !== editPollDetails?.value?.title) {
+          handlePollTitleUpdate(editPollDetails.value.id, {
+            title: title.value,
+          });
         }
 
         //add poll options
@@ -122,10 +127,12 @@ export const useAddPoll = () => {
     if (editId) {
       const { getPolls } = usePollStore();
       const pollList = await getPolls();
-      editPollDetails.value = pollList.find((poll) => poll.id === Number(editId));
+      editPollDetails.value = pollList.find(
+        (poll) => poll.id === Number(editId)
+      );
       oldPollOptionLength.value = editPollDetails?.value?.optionList?.length;
-      title.value = editPollDetails.value.title;
-      optionList.value = [...editPollDetails.value.optionList];
+      title.value = editPollDetails.value?.title;
+      optionList.value = [...editPollDetails.value?.optionList];
       submitButtonText.value = "Edit Poll";
     } else {
       submitButtonText.value = "Add Poll";

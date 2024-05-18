@@ -11,33 +11,22 @@ export const useNavbar = () => {
   const { pageNo, lastPage } = storeToRefs(usePollStore());
   const showLogout = ref(false);
   const showNavLinks = ref(false);
-  let navlinks = ref([
-    { text: "Polls", route: "/", forBoth: true },
-    { text: "Add Poll", route: "/add-poll" },
-    { text: "Create User", route: "/" },
-    { text: "List Users", route: "/" },
-  ]);
+  let navlinks = ref([]);
 
-  const route = useRoute()
-  const editId = ref(null)
+  const route = useRoute();
+  const editId = ref(null);
 
   watchEffect(() => {
-    editId.value = route.params.id
-    if (editId.value) {
-      navlinks.value = [
-        { text: "Polls", route: "/", forBoth: true },
-        { text: "Edit Poll", route: `/edit-poll/${editId.value}` },
-        { text: "Create User", route: "/create-user" },
-        { text: "List Users", route: "/list-users" },
-      ];
-    } else {
-      navlinks.value = [
-        { text: "Polls", route: "/", forBoth: true },
-        { text: "Add Poll", route: "/add-poll" },
-        { text: "Create User", route: "/create-user" },
-        { text: "List Users", route: "/list-users" },
-      ];
-    }
+    editId.value = route.params.id;
+    navlinks.value = [
+      { text: "Polls", route: "/", forBoth: true },
+      {
+        text: editId.value ? "Edit Poll" : "Add Poll",
+        route: editId.value ? `/edit-poll/${editId.value}` : "/add-poll",
+      },
+      { text: "Create User", route: "/create-user" },
+      { text: "List Users", route: "/list-users" },
+    ];
   });
 
   const toggleNavlinks = () => {

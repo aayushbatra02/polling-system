@@ -92,7 +92,5 @@ const {
   submitButtonText,
 } = useAddPoll();
 
-console.log(errorMessage);
-
 const { loading } = storeToRefs(usePollStore());
 </script>
