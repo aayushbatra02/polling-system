@@ -49,7 +49,7 @@ export const useAddPoll = () => {
     clearOptionsError();
   };
 
-  const validate = (field, value, condition) => {
+  const validateInput = (field, value, condition) => {
     if (validateForm.value) {
       errorMessage[field] = authenticate(field, value, condition);
     }
@@ -66,9 +66,9 @@ export const useAddPoll = () => {
   };
   const submitPoll = async () => {
     validateForm.value = true;
-    validate("title", title.value, 10);
+    validateInput("title", title.value, 10);
     for (let i = 0; i < optionList.value.length; i++) {
-      validate(`option ${i + 1}`, optionList?.value[i]?.optionTitle);
+      validateInput(`option ${i + 1}`, optionList?.value[i]?.optionTitle);
     }
     if (!isErrorPresent()) {
       if (editPollDetails.value) {
@@ -121,7 +121,7 @@ export const useAddPoll = () => {
     title,
     submitPoll,
     errorMessage,
-    validate,
+    validateInput,
     submitButtonText,
   };
 };

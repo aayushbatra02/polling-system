@@ -11,7 +11,7 @@
           class="p-1 md:p-2 border border-gray rounded w-[13rem] md:w-[30rem] bg-lightGray"
           type="text"
           name="title"
-          @input="validate('title', title, 10)"
+          @input="validateInput('title', title, 10)"
         />
         <div v-if="errorMessage.title" class="text-red mt-2">
           {{ errorMessage.title }}
@@ -29,7 +29,7 @@
               type="text"
               name="title"
               @input="
-                validate(`option ${index + 1}`, optionList[index]?.optionTitle)
+                validateInput(`option ${index + 1}`, optionList[index]?.optionTitle)
               "
             />
             <button
@@ -75,7 +75,7 @@ const {
   title,
   submitPoll,
   errorMessage,
-  validate,
+  validateInput,
   submitButtonText,
 } = useAddPoll();
 </script>

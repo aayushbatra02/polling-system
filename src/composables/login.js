@@ -24,7 +24,7 @@ export const useLogin = () => {
   const onLogin = async () => {
     validateForm.value = true;
     for (const key in loginData) {
-      validate(key);
+      validateInput(key);
     }
     if (!errorMessage.email && !errorMessage.password) {
       showLoginError.value = true;
@@ -32,7 +32,7 @@ export const useLogin = () => {
     }
   };
 
-  const validate = (field) => {
+  const validateInput = (field) => {
     showLoginError.value = false;
     if (validateForm.value) {
       if (field === "password") {
@@ -50,6 +50,6 @@ export const useLogin = () => {
     showLoginError,
     onLogin,
     loading,
-    validate,
+    validateInput,
   };
 };

@@ -12,7 +12,7 @@
           type="email"
           placeholder="Email"
           v-model.trim="loginData.email"
-          @input="validate('email')"
+          @input="validateInput('email')"
         />
         <p class="text-red">{{ errorMessage.email }}</p>
       </div>
@@ -23,7 +23,7 @@
             :type="showPassword ? 'text' : 'password'"
             placeholder="Password"
             v-model="loginData.password"
-            @input="validate('password')"
+            @input="validateInput('password')"
           />
           <Icon
             v-if="showPassword"
@@ -72,7 +72,7 @@ const {
   loginError,
   onLogin,
   loading,
-  validate,
+  validateInput,
 } = useLogin();
 
 const { showPassword, togglePassword } = useTogglePassword();
