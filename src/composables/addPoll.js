@@ -25,8 +25,7 @@ export const useAddPoll = () => {
   const submitButtonText = ref("");
   const oldPollOptionLength = ref(null);
   const showSuccessModal = ref(false);
-  const successModalTitle = ref('');
-
+  const successModalTitle = ref("");
 
   const clearOptionsError = () => {
     for (const key in errorMessage) {
@@ -46,15 +45,31 @@ export const useAddPoll = () => {
     validateMinOptions();
     if (!errorMessage.minOptionsError) {
       if (editPollDetails.value) {
+        const deletedOptionId = editPollDetails.value.optionList[id]?.id;
         if (id < oldPollOptionLength.value) {
-          const deletedOptionId = editPollDetails.value.optionList[id].id;
           handleDeletePollOption(deletedOptionId);
+        }
+        //enable poll vote if submitted poll option is deleted
+        const submittedPolls = JSON.parse(
+          localStorage.getItem("submittedPolls")
+        );
+          
+        if (submittedPolls) {
+          console.log({submittedPolls, deletedOptionId, bool: submittedPolls[editPollDetails.value.id] === deletedOptionId});
+          if (submittedPolls[editPollDetails?.value?.id] === deletedOptionId) {
+            submittedPolls[editPollDetails?.value?.id] = null;
+          }
+          localStorage.setItem(
+            "submittedPolls",
+            JSON.stringify(submittedPolls)
+          );
         }
       }
       oldPollOptionLength.value = oldPollOptionLength.value - 1;
       optionList.value = optionList.value.filter(
         (option, index) => index !== id
       );
+
       clearOptionsError();
     }
   };
@@ -112,17 +127,17 @@ export const useAddPoll = () => {
           const option = optionList.value[i];
           handleEditPollOption(id, option);
         }
-        successModalTitle.value = 'You have updated Poll successfully'
+        successModalTitle.value = "You have updated Poll successfully";
       } else {
         const poll = {
           title: title.value,
           options: optionList.value,
         };
         handleAddPoll(poll);
-        successModalTitle.value = 'You have created Poll successfully'
+        successModalTitle.value = "You have created Poll successfully";
       }
-      title.value = '';
-      optionList.value = [{ optionTitle: "" }, { optionTitle: "" }]
+      title.value = "";
+      optionList.value = [{ optionTitle: "" }, { optionTitle: "" }];
       showSuccessModal.value = true;
     }
   };
@@ -162,6 +177,6 @@ export const useAddPoll = () => {
     submitButtonText,
     closeSuccessModal,
     showSuccessModal,
-    successModalTitle
+    successModalTitle,
   };
 };

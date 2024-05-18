@@ -2,7 +2,7 @@
   <div
     class="border-2 border-blue p-4 pt-14 pb-8 rounded-lg bg-lightGray relative"
   >
-    <div class="mb-4 flex gap-4 h-12">
+    <div class="mb-4 flex gap-4 min-h-12">
       <div>{{ index + 1 }}.</div>
       <div class="break-all">{{ poll.title }}</div>
     </div>

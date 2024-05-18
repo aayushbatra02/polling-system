@@ -104,6 +104,4 @@ const {
 } = useAddPoll();
 
 const { loading } = storeToRefs(usePollStore());
-
-console.log(showSuccessModal.value);
 </script>
