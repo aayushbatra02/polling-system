@@ -25,7 +25,7 @@ export const useNavbar = () => {
         route: editId.value ? `/edit-poll/${editId.value}` : "/add-poll",
       },
       { text: "Create User", route: "/create-user" },
-      { text: "List Users", route: "/list-users" },
+      { text: "List Users", route: "/user-list" },
     ];
   });
 
