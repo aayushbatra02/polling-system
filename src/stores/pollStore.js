@@ -70,6 +70,7 @@ export const usePollStore = defineStore("pollStore", () => {
         state.resultValues = state.pollDetails.optionList?.map(
           (option) => option.totalVoteCount
         );
+        return res?.data
       }
     } catch (e) {
       console.log(e);

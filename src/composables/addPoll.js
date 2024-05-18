@@ -10,7 +10,9 @@ export const useAddPoll = () => {
     handleTitleUpdate,
     handleAddOption,
     handleDeleteOption,
+    handleEditOption,
   } = useAddPollStore();
+
   const { editPollDetails } = storeToRefs(useAddPollStore());
 
   const title = ref("");
@@ -62,7 +64,7 @@ export const useAddPoll = () => {
     }
     return isPresent;
   };
-  const submitPoll = () => {
+  const submitPoll = async () => {
     validateForm.value = true;
     validate("title", title.value, 10);
     for (let i = 0; i < optionList.value.length; i++) {
@@ -70,7 +72,9 @@ export const useAddPoll = () => {
     }
     if (!isErrorPresent()) {
       if (editPollDetails.value) {
-        console.log({ oldEdit: editPollDetails.value, newEdit: optionList.value });
+        console.log({
+          newEdit: optionList.value,
+        });
         //update title
         if (title.value !== editPollDetails.value.title) {
           handleTitleUpdate(editPollDetails.value.id, { title: title.value });
@@ -78,11 +82,19 @@ export const useAddPoll = () => {
         //add options
         const newPollOptionLength = optionList.value.length;
         if (newPollOptionLength > oldPollOptionLength.value) {
-          const noOfOptionsAdded = newPollOptionLength - oldPollOptionLength.value;
+          const noOfOptionsAdded =
+            newPollOptionLength - oldPollOptionLength.value;
           for (let i = 0; i < noOfOptionsAdded; i++) {
-            const addedOption = optionList?.value[oldPollOptionLength.value + i];
+            const addedOption =
+              optionList?.value[oldPollOptionLength.value + i];
             handleAddOption(editPollDetails.value.id, addedOption);
           }
+        }
+        // edit poll
+        for (let i = 0; i < oldPollOptionLength.value; i++) {
+          const id = optionList.value[i].id;
+          const option = optionList.value[i];
+          handleEditOption(id, option);
         }
       } else {
         const poll = {
@@ -90,8 +102,8 @@ export const useAddPoll = () => {
           options: optionList.value,
         };
         handleAddPoll(poll);
-        router.push("/");
       }
+      router.push("/");
     }
   };
 

@@ -2,13 +2,13 @@
   <div>
     <form
       @submit.prevent="submitPoll"
-      class="w-max m-auto p-12 flex flex-col gap-8 rounded-xl bg-white border-2 border-blue my-20"
+      class="w-max m-auto p-4 md:p-12 flex flex-col gap-4 md:gap-8 rounded-xl bg-white border-2 border-blue my-20"
     >
       <div class="flex flex-col">
-        <label class="text-xl mb-2 text-gray" for="title">Title</label>
+        <label class="md:text-xl mb-2 text-gray" for="title">Title</label>
         <input
-          v-model="title"
-          class="p-2 border border-gray rounded w-[30rem] bg-lightGray"
+          v-model.trim="title"
+          class="p-1 md:p-2 border border-gray rounded w-[13rem] md:w-[30rem] bg-lightGray"
           type="text"
           name="title"
           @input="validate('title', title, 10)"
@@ -19,13 +19,13 @@
       </div>
       <div v-for="(option, index) in optionList" :key="index">
         <div class="flex flex-col">
-          <label class="text-xl mb-2 text-gray" for="title"
+          <label class="md:text-xl mb-2 text-gray" for="title"
             >Option {{ index + 1 }}</label
           >
           <div class="flex">
             <input
-              v-model="optionList[index].optionTitle"
-              class="p-2 border border-gray rounded w-[30rem] bg-lightGray"
+              v-model.trim="optionList[index].optionTitle"
+              class="p-1 md:p-2 border border-gray rounded w-[13rem] md:w-[30rem] bg-lightGray"
               type="text"
               name="title"
               @input="
@@ -35,7 +35,7 @@
             <button
               type="button"
               v-if="optionList.length > 2"
-              class="ml-4"
+              class="md:ml-4"
               @click="deleteOption(index)"
             >
               <Icon class="text-red w-8 h-8" icon="material-symbols:delete" />
@@ -55,7 +55,7 @@
       </button>
       <button
         type="submit"
-        class="border w-[100%] m-auto text-blue py-2 rounded hover:bg-blue hover:text-white text-xl"
+        class="border w-[100%] m-auto text-blue py-1 md:py-2 rounded hover:bg-blue hover:text-white md:text-xl"
       >
         {{ submitButtonText }}
       </button>

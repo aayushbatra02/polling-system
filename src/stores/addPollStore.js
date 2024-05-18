@@ -44,11 +44,20 @@ export const useAddPollStore = defineStore("addPollStore", () => {
     }
   };
 
+  const handleEditOption = async (optionId, optionTitle) => {
+    try {
+      await axios.put(`option/edit/${optionId}`, optionTitle);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     handleAddPoll,
     handleTitleUpdate,
     handleAddOption,
     handleDeleteOption,
+    handleEditOption,
     ...toRefs(state),
   };
 });

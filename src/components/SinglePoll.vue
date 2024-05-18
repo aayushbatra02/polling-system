@@ -4,11 +4,11 @@
   >
     <div class="mb-4 flex gap-4 h-12">
       <div>{{ index + 1 }}.</div>
-      <div>{{ poll.title }}</div>
+      <div class="break-all">{{ poll.title }}</div>
     </div>
     <div class="flex flex-col gap-4 mb-8 min-h-[10rem]">
       <div v-for="option in poll.optionList" :key="option.id">
-        <label class="cursor-pointer">
+        <label class="cursor-pointer break-all">
           <input
             @change="setSelectedOptionId(option.id)"
             class="mr-4 cursor-pointer"
