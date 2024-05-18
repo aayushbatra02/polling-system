@@ -24,6 +24,9 @@ export const useAddPoll = () => {
   const editPollDetails = ref(null);
   const submitButtonText = ref("");
   const oldPollOptionLength = ref(null);
+  const showSuccessModal = ref(false);
+  const successModalTitle = ref('');
+
 
   const clearOptionsError = () => {
     for (const key in errorMessage) {
@@ -109,15 +112,24 @@ export const useAddPoll = () => {
           const option = optionList.value[i];
           handleEditPollOption(id, option);
         }
+        successModalTitle.value = 'You have updated Poll successfully'
       } else {
         const poll = {
           title: title.value,
           options: optionList.value,
         };
         handleAddPoll(poll);
+        successModalTitle.value = 'You have created Poll successfully'
       }
-      router.push("/");
+      title.value = '';
+      optionList.value = [{ optionTitle: "" }, { optionTitle: "" }]
+      showSuccessModal.value = true;
     }
+  };
+
+  const closeSuccessModal = () => {
+    showSuccessModal.value = false;
+    router.push("/");
   };
 
   onMounted(async () => {
@@ -148,5 +160,8 @@ export const useAddPoll = () => {
     errorMessage,
     validateInput,
     submitButtonText,
+    closeSuccessModal,
+    showSuccessModal,
+    successModalTitle
   };
 };

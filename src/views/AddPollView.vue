@@ -70,6 +70,13 @@
         {{ submitButtonText }}
       </button>
     </form>
+    <confirmation-modal
+      heading="Congratulations!!!"
+      :description="successModalTitle"
+      @on-confirm-button="closeSuccessModal"
+      confirmButtonText="OK"
+      v-if="showSuccessModal"
+    />
   </div>
 </template>
 
@@ -80,6 +87,7 @@ import { storeToRefs } from "pinia";
 import { useAddPoll } from "@/composables/addPoll";
 import { usePollStore } from "@/stores/pollStore";
 import SpinningLoader from "@/components/SpinningLoader.vue";
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
 
 const {
   optionList,
@@ -90,7 +98,12 @@ const {
   errorMessage,
   validateInput,
   submitButtonText,
+  showSuccessModal,
+  closeSuccessModal,
+  successModalTitle,
 } = useAddPoll();
 
 const { loading } = storeToRefs(usePollStore());
+
+console.log(showSuccessModal.value);
 </script>
