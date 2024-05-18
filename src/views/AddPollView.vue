@@ -36,7 +36,7 @@
               type="button"
               v-if="optionList.length > 2"
               class="md:ml-4"
-              @click="deleteOption(index)"
+              @click="deletePollOption(index)"
             >
               <Icon class="text-red w-8 h-8" icon="material-symbols:delete" />
             </button>
@@ -48,7 +48,7 @@
       </div>
       <button
         class="border border-gray w-max px-4 py-1 rounded hover:bg-gray hover:text-white"
-        @click="addOption"
+        @click="addPollOption"
         type="button"
       >
         Add Option
@@ -70,8 +70,8 @@ import { useAddPoll } from "@/composables/addPoll";
 
 const {
   optionList,
-  addOption,
-  deleteOption,
+  addPollOption,
+  deletePollOption,
   title,
   submitPoll,
   errorMessage,

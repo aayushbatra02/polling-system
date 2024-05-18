@@ -7,10 +7,10 @@ import { onMounted, reactive, ref } from "vue";
 export const useAddPoll = () => {
   const {
     handleAddPoll,
-    handleTitleUpdate,
-    handleAddOption,
-    handleDeleteOption,
-    handleEditOption,
+    handlePollTitleUpdate,
+    handleAddPollOption,
+    handleDeletePollOption,
+    handleEditPollOption,
   } = useAddPollStore();
 
   const { editPollDetails } = storeToRefs(useAddPollStore());
@@ -21,7 +21,7 @@ export const useAddPoll = () => {
   const errorMessage = reactive({
     title: null,
   });
-  const submitButtonText = ref("Add Poll");
+  const submitButtonText = ref("");
   const oldPollOptionLength = ref(editPollDetails?.value?.optionList.length);
 
   const clearOptionsError = () => {
@@ -32,16 +32,16 @@ export const useAddPoll = () => {
     }
   };
 
-  const addOption = () => {
+  const addPollOption = () => {
     optionList.value.push({ optionTitle: "" });
     clearOptionsError();
   };
 
-  const deleteOption = (id) => {
+  const deletePollOption = (id) => {
     if (editPollDetails.value) {
       if (id < oldPollOptionLength.value) {
         const deletedOptionId = editPollDetails.value.optionList[id].id;
-        handleDeleteOption(deletedOptionId);
+        handleDeletePollOption(deletedOptionId);
       }
     }
     oldPollOptionLength.value = oldPollOptionLength.value - 1;
@@ -72,14 +72,11 @@ export const useAddPoll = () => {
     }
     if (!isErrorPresent()) {
       if (editPollDetails.value) {
-        console.log({
-          newEdit: optionList.value,
-        });
-        //update title
+        //update poll title
         if (title.value !== editPollDetails.value.title) {
-          handleTitleUpdate(editPollDetails.value.id, { title: title.value });
+          handlePollTitleUpdate(editPollDetails.value.id, { title: title.value });
         }
-        //add options
+        //add poll options
         const newPollOptionLength = optionList.value.length;
         if (newPollOptionLength > oldPollOptionLength.value) {
           const noOfOptionsAdded =
@@ -87,14 +84,14 @@ export const useAddPoll = () => {
           for (let i = 0; i < noOfOptionsAdded; i++) {
             const addedOption =
               optionList?.value[oldPollOptionLength.value + i];
-            handleAddOption(editPollDetails.value.id, addedOption);
+            handleAddPollOption(editPollDetails.value.id, addedOption);
           }
         }
         // edit poll
         for (let i = 0; i < oldPollOptionLength.value; i++) {
           const id = optionList.value[i].id;
           const option = optionList.value[i];
-          handleEditOption(id, option);
+          handleEditPollOption(id, option);
         }
       } else {
         const poll = {
@@ -112,13 +109,15 @@ export const useAddPoll = () => {
       title.value = editPollDetails.value.title;
       optionList.value = [...editPollDetails.value.optionList];
       submitButtonText.value = "Edit Poll";
+    } else {
+      submitButtonText.value = "Add Poll";
     }
   });
 
   return {
     optionList,
-    addOption,
-    deleteOption,
+    addPollOption,
+    deletePollOption,
     title,
     submitPoll,
     errorMessage,

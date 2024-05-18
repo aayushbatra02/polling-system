@@ -61,7 +61,7 @@ export const useNavbar = () => {
     router.push("/login");
   };
 
-  const clearEditId = (linkText) => {
+  const clearEditDetails = (linkText) => {
     if (linkText !== "Add Poll" && linkText !== "Edit Poll") {
       editPollDetails.value = null;
     }
@@ -75,6 +75,6 @@ export const useNavbar = () => {
     logoutUser,
     showNavLinks,
     toggleNavlinks,
-    clearEditId,
+    clearEditDetails,
   };
 };

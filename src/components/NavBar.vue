@@ -13,7 +13,7 @@
             :to="link.route"
             active-class="font-bold text-lg md:text-xl border-b-2 border-blue"
             class="w-max"
-            @click="clearEditId(link.text)"
+            @click="clearEditDetails(link.text)"
           >
             {{ link.text }}
           </RouterLink>
@@ -64,6 +64,6 @@ const {
   logoutUser,
   showNavLinks,
   toggleNavlinks,
-  clearEditId
+  clearEditDetails
 } = useNavbar();
 </script>

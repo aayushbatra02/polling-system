@@ -20,7 +20,7 @@ export const useAddPollStore = defineStore("addPollStore", () => {
     }
   };
 
-  const handleTitleUpdate = async (pollId, title) => {
+  const handlePollTitleUpdate = async (pollId, title) => {
     try {
       await axios.put(`poll/${pollId}`, title);
     } catch (e) {
@@ -28,7 +28,7 @@ export const useAddPollStore = defineStore("addPollStore", () => {
     }
   };
 
-  const handleAddOption = async (optionId, option) => {
+  const handleAddPollOption = async (optionId, option) => {
     try {
       await axios.post(`poll/addPollOption/${optionId}`, option);
     } catch (e) {
@@ -36,7 +36,7 @@ export const useAddPollStore = defineStore("addPollStore", () => {
     }
   };
 
-  const handleDeleteOption = async (optionId) => {
+  const handleDeletePollOption = async (optionId) => {
     try {
       await axios.delete(`option/delete/${optionId}`);
     } catch (e) {
@@ -44,7 +44,7 @@ export const useAddPollStore = defineStore("addPollStore", () => {
     }
   };
 
-  const handleEditOption = async (optionId, optionTitle) => {
+  const handleEditPollOption = async (optionId, optionTitle) => {
     try {
       await axios.put(`option/edit/${optionId}`, optionTitle);
     } catch (e) {
@@ -54,10 +54,10 @@ export const useAddPollStore = defineStore("addPollStore", () => {
 
   return {
     handleAddPoll,
-    handleTitleUpdate,
-    handleAddOption,
-    handleDeleteOption,
-    handleEditOption,
+    handlePollTitleUpdate,
+    handleAddPollOption,
+    handleDeletePollOption,
+    handleEditPollOption,
     ...toRefs(state),
   };
 });

@@ -7,16 +7,22 @@
       <div class="break-all">{{ poll.title }}</div>
     </div>
     <div class="flex flex-col gap-4 mb-8 min-h-[10rem]">
-      <div v-for="option in poll.optionList" :key="option.id">
-        <label class="cursor-pointer break-all">
-          <input
-            @change="setSelectedOptionId(option.id)"
-            class="mr-4 cursor-pointer"
-            type="radio"
-            :name="option.pollId"
-            :disabled="isPollSubmitted"
-            :checked="selectedOption === option.id"
-          />{{ option.optionTitle }}</label
+      <div
+        v-for="option in poll.optionList"
+        :key="option.id"
+        class="flex items-start"
+      >
+        <input
+          @change="setSelectedOptionId(option.id)"
+          class="mr-4 cursor-pointer my-1.5"
+          type="radio"
+          :name="option.pollId"
+          :disabled="isPollSubmitted"
+          :checked="selectedOption === option.id"
+          :id="option.id"
+        />
+        <label class="cursor-pointer break-all" :for="option.id">
+          {{ option.optionTitle }}</label
         >
       </div>
     </div>
