@@ -19,7 +19,6 @@ const routes = [
     name: "Signup",
     component: () => import("@/views/SignupView.vue"),
   },
-
   {
     path: "/add-poll",
     name: "AddPoll",
@@ -29,6 +28,11 @@ const routes = [
     path: "/edit-poll/:id",
     name: "EditPoll",
     component: () => import("@/views/AddPollView.vue"),
+  },
+  {
+    path: "/user-list",
+    name: "UserList",
+    component: () => import("@/views/UserListView.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
