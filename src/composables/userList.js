@@ -19,6 +19,7 @@ export const useUserList = () => {
 
   watch([rows, pageNumber], async () => {
     await fetchUsers();
+
     if (pageNumber.value === 1) {
       disablePrevButton.value = true;
     } else {
@@ -31,6 +32,8 @@ export const useUserList = () => {
       disableNextButton.value = false;
     }
   });
+
+  watch(rows, () => (pageNumber.value = 1));
 
   const nextPage = () => {
     pageNumber.value++;
