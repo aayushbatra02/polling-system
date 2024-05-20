@@ -28,8 +28,12 @@ export const useSignupStore = defineStore("signupStore", () => {
         state.isUserSignedup = true;
       }
     } catch (e) {
-      const errorMessage = e?.response?.data;
-      if (errorMessage.includes("Duplicate")) {
+      const errorMessage =
+        type === "register" ? e?.response?.data : e?.response?.data?.message;
+      if (
+        errorMessage.includes("Duplicate") ||
+        errorMessage.includes("500 error to the user")
+      ) {
         state.error = `Email Id already exists.`;
       } else {
         state.error = errorMessage;
