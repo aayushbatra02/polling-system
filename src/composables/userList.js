@@ -5,17 +5,17 @@ import { onMounted, ref, watch } from "vue";
 export const useUserList = () => {
   const { getUsers } = useUserListStore();
   const { users } = storeToRefs(useUserListStore());
-  const count = ref(10);
+  const limit = ref(10);
   const pageNumber = ref(1);
   const disablePrevButton = ref(true);
   const disableNextButton = ref(false);
 
   onMounted(() => {
-    getUsers(pageNumber.value, count.value);
+    getUsers(pageNumber.value, limit.value);
   });
 
-  watch([count, pageNumber], async () => {
-    await getUsers(pageNumber.value, count.value);
+  watch([limit, pageNumber], async () => {
+    await getUsers(pageNumber.value, limit.value);
 
     if (pageNumber.value === 1) {
       disablePrevButton.value = true;
@@ -23,14 +23,14 @@ export const useUserList = () => {
       disablePrevButton.value = false;
     }
 
-    if (users.value.length < count.value) {
+    if (users.value.length < limit.value) {
       disableNextButton.value = true;
     } else {
       disableNextButton.value = false;
     }
   });
 
-  watch(count, () => (pageNumber.value = 1));
+  watch(limit, () => (pageNumber.value = 1));
 
   const nextPage = () => {
     pageNumber.value++;
@@ -41,7 +41,7 @@ export const useUserList = () => {
   };
 
   return {
-    count,
+    limit,
     pageNumber,
     prevPage,
     nextPage,

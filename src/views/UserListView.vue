@@ -69,7 +69,7 @@
           <select
             name="rowCount"
             class="px-2 md:px-4 py-1 border-2 border-blue cursor-pointer"
-            v-model="count"
+            v-model="limit"
           >
             <option value="10">10</option>
             <option value="15">15</option>
@@ -117,7 +117,7 @@ import { useUserListStore } from "@/stores/userListStore";
 import SpinningLoader from "@/components/SpinningLoader.vue";
 
 const {
-  count,
+  limit,
   pageNumber,
   prevPage,
   nextPage,
