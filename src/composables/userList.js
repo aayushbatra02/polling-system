@@ -1,24 +1,21 @@
 import { useUserListStore } from "@/stores/userListStore";
+import { storeToRefs } from "pinia";
 import { onMounted, ref, watch } from "vue";
 
 export const useUserList = () => {
   const { getUsers } = useUserListStore();
-  const users = ref([]);
-  const rows = ref(10);
+  const { users } = storeToRefs(useUserListStore());
+  const count = ref(10);
   const pageNumber = ref(1);
   const disablePrevButton = ref(true);
   const disableNextButton = ref(false);
 
-  const fetchUsers = async () => {
-    users.value = await getUsers(pageNumber.value, rows.value);
-  };
-
   onMounted(() => {
-    fetchUsers();
+    getUsers(pageNumber.value, count.value);
   });
 
-  watch([rows, pageNumber], async () => {
-    await fetchUsers();
+  watch([count, pageNumber], async () => {
+    await getUsers(pageNumber.value, count.value);
 
     if (pageNumber.value === 1) {
       disablePrevButton.value = true;
@@ -26,14 +23,14 @@ export const useUserList = () => {
       disablePrevButton.value = false;
     }
 
-    if (users.value.length < rows.value) {
+    if (users.value.length < count.value) {
       disableNextButton.value = true;
     } else {
       disableNextButton.value = false;
     }
   });
 
-  watch(rows, () => (pageNumber.value = 1));
+  watch(count, () => (pageNumber.value = 1));
 
   const nextPage = () => {
     pageNumber.value++;
@@ -44,8 +41,7 @@ export const useUserList = () => {
   };
 
   return {
-    users,
-    rows,
+    count,
     pageNumber,
     prevPage,
     nextPage,
