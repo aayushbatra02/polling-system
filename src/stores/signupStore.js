@@ -8,7 +8,6 @@ export const useSignupStore = defineStore("signupStore", () => {
     loading: false,
     error: null,
     isUserSignedup: false,
-    user: null,
   });
 
   const getRoles = async () => {
@@ -20,15 +19,13 @@ export const useSignupStore = defineStore("signupStore", () => {
     }
   };
 
-  const signupUser = async (userData) => {
+  const signupUser = async (userData, type) => {
     try {
       state.error = null;
       state.loading = true;
-      const res = await axios.post(`user/register`, userData);
+      const res = await axios.post(`user/${type}`, userData);
       if (res?.status === 200) {
-        const data = res.data;
         state.isUserSignedup = true;
-        state.user = data.response;
       }
     } catch (e) {
       const errorMessage = e?.response?.data;

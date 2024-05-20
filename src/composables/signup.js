@@ -45,7 +45,7 @@ export const useSignup = () => {
     }
   };
 
-  const onSignup = async () => {
+  const onSignup = async (type) => {
     validateSignupForm.value = true;
     for (const key in signupData) {
       validateInput(key);
@@ -64,7 +64,7 @@ export const useSignup = () => {
         email: signupData.email,
         password: signupData.password,
         roleId: signupData.role,
-      });
+      }, type);
       showSignupError.value = true;
       if (isUserSignedup.value) {
         for (const key in signupData) {
@@ -74,8 +74,10 @@ export const useSignup = () => {
     }
   };
 
-  const routeToLogin = () => {
-    router.push("/login");
+  const handleConfirmButton = (route) => {
+    if (route) {
+      router.push(route);
+    }
     isUserSignedup.value = false;
   };
 
@@ -89,6 +91,6 @@ export const useSignup = () => {
     error,
     showSignupError,
     isUserSignedup,
-    routeToLogin,
+    handleConfirmButton,
   };
 };
