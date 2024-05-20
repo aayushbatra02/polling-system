@@ -34,7 +34,6 @@ export const useUserList = () => {
 
   const nextPage = () => {
     pageNumber.value++;
-    disablePrevButton.value = false;
   };
 
   const prevPage = () => {

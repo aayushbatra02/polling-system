@@ -1,20 +1,20 @@
 <template>
   <div class="p-4 md:p-10">
     <div v-if="loading"><spinning-loader :large="true" /></div>
-    <div v-else class="mx-auto w-[80%]">
+    <div v-else class="mx-auto w-[100%] sm:w-[90%] md:w-[80%] xl:w-[60%] text-xs  sm:text-sm md:text-base">
       <h1 class="text-lg md:text-2xl font-bold mb-4 md:mb-8">USERS</h1>
-      <table>
+      <table class="w-[100%]">
         <tr>
-          <th class="text-blue border border-blue w-[25%] px-8 py-2 text-lg">
-            Sno.
+          <th class="text-blue border border-blue p-2 md:px-8 md:py-2 text-sm md:text-lg">
+            ID
           </th>
-          <th class="text-blue border border-blue w-[25%] px-8 py-2 text-lg">
+          <th class="text-blue border border-blue p-2 md:px-8 md:py-2 text-sm md:text-lg">
             Name
           </th>
-          <th class="text-blue border border-blue w-[25%] px-8 py-2 text-lg">
+          <th class="text-blue border border-blue p-2 md:px-8 md:py-2 text-sm md:text-lg">
             Email
           </th>
-          <th class="text-blue border border-blue w-[25%] px-8 py-2 text-lg">
+          <th class="text-blue border border-blue p-2 md:px-8 md:py-2 text-sm md:text-lg">
             Role
           </th>
         </tr>
@@ -22,29 +22,29 @@
           v-for="({ id, firstName, lastName, email, roleId }, index) in users"
           :key="id"
         >
-          <td class="border border-blue text-center px-8 py-2">
+          <td class="border border-blue p-2 w-[10%] text-center md:px-8 md:py-2">
             {{ index + 1 }}
           </td>
-          <td class="border border-blue text-center px-8 py-2">
+          <td class="border border-blue p-2 w-[25%] text-center md:px-8 md:py-2 capitalize">
             {{ firstName }} {{ lastName }}
           </td>
-          <td class="border border-blue text-center px-8 py-2">{{ email }}</td>
+          <td class="border border-blue p-2 w-[50%] text-center md:px-8 md:py-2 break-all">{{ email }}</td>
 
           <td
-            class="border border-blue text-center px-8 py-2"
+            class="border border-blue p-2 w-[15%] text-center md:px-8 md:py-2"
             v-if="roleId === ADMIN_ID"
           >
             Admin
           </td>
-          <td class="border border-blue text-center px-8 py-2" v-else>User</td>
+          <td class="border border-blue text-xs w-[20%] md:text-base text-center md:px-8 md:py-2" v-else>User</td>
         </tr>
       </table>
-      <div class="mt-4 flex gap-8">
-        <div>
-          <label for="rowCount" class="mr-4">Rows Per Page</label>
+      <div class="mt-8 flex gap-8 items-start md:items-center">
+        <div class="flex flex-col md:flex-row gap-2 md:gap-4 items-center">
+          <label for="rowCount">Rows Per Page</label>
           <select
             name="rowCount"
-            class="px-4 py-1 border-2 border-blue cursor-pointer"
+            class="px-2   md:px-4 py-1 border-2 border-blue cursor-pointer"
             v-model="rows"
           >
             <option value="10">10</option>
@@ -62,7 +62,7 @@
           >
             &lt; &lt;
           </button>
-          <span>{{ pageNumber }}</span>
+          <span><span class="text-gray">page no.</span> <span>{{ pageNumber }}</span></span>
           <button
             :disabled="disableNextButton"
             @click="nextPage"
@@ -80,7 +80,6 @@
 
 <script setup>
 import { storeToRefs } from "pinia";
-import { onUpdated } from "vue";
 import { useUserList } from "@/composables/userList";
 import { ADMIN_ID } from "@/constants";
 import { useUserListStore } from "@/stores/userListStore";
@@ -96,6 +95,4 @@ const {
   disableNextButton,
 } = useUserList();
 const { loading } = storeToRefs(useUserListStore());
-
-onUpdated(() => console.log("----"));
 </script>
