@@ -55,7 +55,6 @@ export const useAddPoll = () => {
         );
           
         if (submittedPolls) {
-          console.log({submittedPolls, deletedOptionId, bool: submittedPolls[editPollDetails.value.id] === deletedOptionId});
           if (submittedPolls[editPollDetails?.value?.id] === deletedOptionId) {
             submittedPolls[editPollDetails?.value?.id] = null;
           }

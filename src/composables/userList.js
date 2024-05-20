@@ -1,13 +1,53 @@
 import { useUserListStore } from "@/stores/userListStore";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 export const useUserList = () => {
   const { getUsers } = useUserListStore();
   const users = ref([]);
+  const rows = ref(10);
+  const pageNumber = ref(1);
+  const disablePrevButton = ref(true);
+  const disableNextButton = ref(false);
 
-  onMounted(async () => {
-    users.value = await getUsers();
+  const fetchUsers = async () => {
+    users.value = await getUsers(pageNumber.value, rows.value);
+  };
+
+  onMounted(() => {
+    fetchUsers();
   });
 
-  return { users };
+  watch([rows, pageNumber], async () => {
+    await fetchUsers();
+    if (pageNumber.value === 1) {
+      disablePrevButton.value = true;
+    } else {
+      disablePrevButton.value = false;
+    }
+
+    if (users.value.length < rows.value) {
+      disableNextButton.value = true;
+    } else {
+      disableNextButton.value = false;
+    }
+  });
+
+  const nextPage = () => {
+    pageNumber.value++;
+    disablePrevButton.value = false;
+  };
+
+  const prevPage = () => {
+    pageNumber.value--;
+  };
+
+  return {
+    users,
+    rows,
+    pageNumber,
+    prevPage,
+    nextPage,
+    disablePrevButton,
+    disableNextButton,
+  };
 };
