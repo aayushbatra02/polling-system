@@ -1,6 +1,6 @@
 <template>
   <form
-    @submit.prevent="() => onSignup(type)"
+    @submit.prevent="() => onFormSubmit(type)"
     class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
     :class="[title === 'Signup' ? 'md:m-[5rem]' : 'border-2 border-blue my-20']"
     novalidate
@@ -11,8 +11,8 @@
         class="border-b border-black md:p-2 outline-none w-[100%]"
         type="text"
         placeholder="First Name"
-        v-model.trim="signupData.firstName"
-        @input="validateInput('firstName', signupData.firstName)"
+        v-model.trim="formData.firstName"
+        @input="validateInput('firstName', formData.firstName)"
       />
       <p class="text-red">{{ errorMessage.firstName }}</p>
     </div>
@@ -21,8 +21,8 @@
         class="border-b border-black md:p-2 outline-none w-[100%]"
         type="text"
         placeholder="Last Name"
-        v-model.trim="signupData.lastName"
-        @input="validateInput('lastName', signupData.lastName)"
+        v-model.trim="formData.lastName"
+        @input="validateInput('lastName', formData.lastName)"
       />
       <p class="text-red">{{ errorMessage.lastName }}</p>
     </div>
@@ -31,16 +31,16 @@
         class="border-b border-black md:p-2 outline-none w-[100%]"
         type="email"
         placeholder="Email"
-        v-model.trim="signupData.email"
-        @input="validateInput('email', signupData.email)"
+        v-model.trim="formData.email"
+        @input="validateInput('email', formData.email)"
       />
       <p class="text-red">{{ errorMessage.email }}</p>
     </div>
     <div class="mt-8 w-[90%]">
       <select
         class="p-2 border border-black rounded w-[100%] bg-white"
-        v-model="signupData.role"
-        @change="validateInput('role', signupData.role)"
+        v-model="formData.role"
+        @change="validateInput('role', formData.role)"
       >
         <option disabled value="">Please Select a Role</option>
         <option v-for="role in roles" :value="role.id" :key="role.id">
@@ -54,8 +54,8 @@
         <input
           class="md:p-2 border-b border-black outline-none w-[100%]"
           placeholder="Password"
-          v-model="signupData.password"
-          @input="validateInput('password', signupData.password)"
+          v-model="formData.password"
+          @input="validateInput('password', formData.password)"
           :type="showPassword ? 'text' : 'password'"
         />
         <Icon
@@ -78,7 +78,7 @@
         <input
           class="md:p-2 border-b border-black outline-none w-[100%]"
           placeholder="Confirm Password"
-          v-model="signupData.confirmPassword"
+          v-model="formData.confirmPassword"
           @input="validateInput('confirmPassword')"
           :type="showConfirmPassword ? 'text' : 'password'"
         />
@@ -97,7 +97,7 @@
       </div>
       <p class="text-red">{{ errorMessage.confirmPassword }}</p>
     </div>
-    <p v-if="showSignupError" class="text-red w-[90%] text-left">
+    <p v-if="showFormError" class="text-red w-[90%] text-left">
       {{ error }}
     </p>
     <button
@@ -122,14 +122,14 @@ import { useSignup } from "@/composables/signup";
 import { useTogglePassword } from "@/composables/togglePassword";
 
 const {
-  onSignup,
-  signupData,
+  onFormSubmit,
+  formData,
   errorMessage,
   roles,
   validateInput,
   loading,
   error,
-  showSignupError,
+  showFormError,
 } = useSignup();
 
 const {

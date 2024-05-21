@@ -5,7 +5,7 @@ import router from "@/router/index.js";
 import { authenticate } from "@/utils/authenticate";
 
 export const useSignup = () => {
-  const signupData = reactive({
+  const formData = reactive({
     firstName: "",
     lastName: "",
     email: "",
@@ -21,8 +21,8 @@ export const useSignup = () => {
     password: null,
     confirmPassword: null,
   });
-  const validateSignupForm = ref(false);
-  const showSignupError = ref(false);
+  const validateForm = ref(false);
+  const showFormError = ref(false);
 
   const signupStore = useSignupStore();
   const { roles, loading, error, isUserSignedup } = storeToRefs(signupStore);
@@ -32,22 +32,22 @@ export const useSignup = () => {
   });
 
   const validateInput = (field) => {
-    showSignupError.value = false;
-    if (validateSignupForm.value) {
+    showFormError.value = false;
+    if (validateForm.value) {
       if (field === "confirmPassword") {
         errorMessage[field] = authenticate(field, [
-          signupData.password,
-          signupData.confirmPassword,
+          formData.password,
+          formData.confirmPassword,
         ]);
       } else {
-        errorMessage[field] = authenticate(field, signupData[field], 4);
+        errorMessage[field] = authenticate(field, formData[field], 4);
       }
     }
   };
 
-  const onSignup = async (type) => {
-    validateSignupForm.value = true;
-    for (const key in signupData) {
+  const onFormSubmit = async (type) => {
+    validateForm.value = true;
+    for (const key in formData) {
       validateInput(key);
     }
     if (
@@ -59,16 +59,16 @@ export const useSignup = () => {
       !errorMessage.confirmPassword
     ) {
       await signupStore.signupUser({
-        firstName: signupData.firstName,
-        lastName: signupData.lastName,
-        email: signupData.email,
-        password: signupData.password,
-        roleId: signupData.role,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        roleId: formData.role,
       }, type);
-      showSignupError.value = true;
+      showFormError.value = true;
       if (isUserSignedup.value) {
-        for (const key in signupData) {
-          signupData[key] = "";
+        for (const key in formData) {
+          formData[key] = "";
         }
       }
     }
@@ -82,14 +82,14 @@ export const useSignup = () => {
   };
 
   return {
-    onSignup,
-    signupData,
+    onFormSubmit,
+    formData,
     errorMessage,
     validateInput,
     roles,
     loading,
     error,
-    showSignupError,
+    showFormError,
     isUserSignedup,
     handleConfirmButton,
   };
