@@ -2,7 +2,7 @@
   <div
     class="bg-backgroundColor min-h-[100vh] h-max flex justify-center items-center"
   >
-    <create-user-form title="Signup" signup type="register"/>
+    <create-user-form title="Signup" :signup="true" type="register"/>
     <confirmation-modal
       heading="Congratulations!!!"
       description="You have Signed up successfully"

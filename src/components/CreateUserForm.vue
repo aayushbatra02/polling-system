@@ -2,7 +2,7 @@
   <form
     @submit.prevent="() => onFormSubmit(type)"
     class="bg-white p-5 md:p-10 lg:p-15 flex flex-col items-center rounded-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%] xl:w-[30%] 2xl:[25%]"
-    :class="[title === 'Signup' ? 'md:m-[5rem]' : 'border-2 border-blue my-20']"
+    :class="[signup ? 'md:m-[5rem]' : 'border-2 border-blue my-20']"
     novalidate
   >
     <h1 class="text-2xl md:text-4xl font-bold md:mb-10">{{ title }}</h1>
