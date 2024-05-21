@@ -6,12 +6,12 @@ import { authenticate } from "@/utils/authenticate";
 
 export const useSignup = () => {
   const formData = reactive({
-    firstName: "test",
-    lastName: "user",
-    email: "testuser11@gmail.com",
-    role: 1,
-    password: "qweR123$",
-    confirmPassword: "qweR123$",
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "",
+    password: "",
+    confirmPassword: "",
   });
   const errorMessage = reactive({
     firstName: null,
