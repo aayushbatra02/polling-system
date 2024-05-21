@@ -8,7 +8,7 @@
       description="You have Signed up successfully"
       @on-confirm-button="() => handleConfirmButton('/login')"
       confirmButtonText="OK"
-      v-if="isUserSignedup"
+      v-if="isFormSubmitted"
     />
   </div>
 </template>
@@ -18,5 +18,5 @@ import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { useSignup } from "@/composables/signup";
 import CreateUserForm from "@/components/CreateUserForm.vue";
 
-const { handleConfirmButton, isUserSignedup } = useSignup();
+const { handleConfirmButton, isFormSubmitted } = useSignup();
 </script>

@@ -6,12 +6,12 @@ import { authenticate } from "@/utils/authenticate";
 
 export const useSignup = () => {
   const formData = reactive({
-    firstName: "",
-    lastName: "",
-    email: "",
-    role: "",
-    password: "",
-    confirmPassword: "",
+    firstName: "test",
+    lastName: "user",
+    email: "testuser11@gmail.com",
+    role: 1,
+    password: "qweR123$",
+    confirmPassword: "qweR123$",
   });
   const errorMessage = reactive({
     firstName: null,
@@ -25,7 +25,7 @@ export const useSignup = () => {
   const showFormError = ref(false);
 
   const signupStore = useSignupStore();
-  const { roles, loading, error, isUserSignedup } = storeToRefs(signupStore);
+  const { roles, loading, error, isFormSubmitted } = storeToRefs(signupStore);
 
   onMounted(async () => {
     await signupStore.getRoles();
@@ -58,7 +58,7 @@ export const useSignup = () => {
       !errorMessage.password &&
       !errorMessage.confirmPassword
     ) {
-      await signupStore.signupUser({
+      await signupStore.submitForm({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -66,7 +66,7 @@ export const useSignup = () => {
         roleId: formData.role,
       }, type);
       showFormError.value = true;
-      if (isUserSignedup.value) {
+      if (isFormSubmitted.value) {
         for (const key in formData) {
           formData[key] = "";
         }
@@ -78,7 +78,7 @@ export const useSignup = () => {
     if (route) {
       router.push(route);
     }
-    isUserSignedup.value = false;
+    isFormSubmitted.value = false;
   };
 
   return {
@@ -90,7 +90,7 @@ export const useSignup = () => {
     loading,
     error,
     showFormError,
-    isUserSignedup,
+    isFormSubmitted,
     handleConfirmButton,
   };
 };

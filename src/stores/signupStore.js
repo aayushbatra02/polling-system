@@ -7,7 +7,7 @@ export const useSignupStore = defineStore("signupStore", () => {
     roles: [],
     loading: false,
     error: null,
-    isUserSignedup: false,
+    isFormSubmitted: false,
   });
 
   const getRoles = async () => {
@@ -19,13 +19,13 @@ export const useSignupStore = defineStore("signupStore", () => {
     }
   };
 
-  const signupUser = async (userData, type) => {
+  const submitForm = async (userData, type) => {
     try {
       state.error = null;
       state.loading = true;
       const res = await axios.post(`user/${type}`, userData);
       if (res?.status === 200) {
-        state.isUserSignedup = true;
+        state.isFormSubmitted = true;
       }
     } catch (e) {
       const errorMessage =
@@ -43,5 +43,5 @@ export const useSignupStore = defineStore("signupStore", () => {
     }
   };
 
-  return { getRoles, signupUser, ...toRefs(state) };
+  return { getRoles, submitForm, ...toRefs(state) };
 });
