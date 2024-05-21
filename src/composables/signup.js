@@ -5,7 +5,7 @@ import router from "@/router/index.js";
 import { authenticate } from "@/utils/authenticate";
 
 export const useSignup = () => {
-  const signupData = reactive({
+  const formData = reactive({
     firstName: "",
     lastName: "",
     email: "",
@@ -21,33 +21,33 @@ export const useSignup = () => {
     password: null,
     confirmPassword: null,
   });
-  const validateSignupForm = ref(false);
-  const showSignupError = ref(false);
+  const validateForm = ref(false);
+  const showFormError = ref(false);
 
   const signupStore = useSignupStore();
-  const { roles, loading, error, isUserSignedup } = storeToRefs(signupStore);
+  const { roles, loading, error, isFormSubmitted } = storeToRefs(signupStore);
 
   onMounted(async () => {
     await signupStore.getRoles();
   });
 
   const validateInput = (field) => {
-    showSignupError.value = false;
-    if (validateSignupForm.value) {
+    showFormError.value = false;
+    if (validateForm.value) {
       if (field === "confirmPassword") {
         errorMessage[field] = authenticate(field, [
-          signupData.password,
-          signupData.confirmPassword,
+          formData.password,
+          formData.confirmPassword,
         ]);
       } else {
-        errorMessage[field] = authenticate(field, signupData[field], 4);
+        errorMessage[field] = authenticate(field, formData[field], 4);
       }
     }
   };
 
-  const onSignup = async () => {
-    validateSignupForm.value = true;
-    for (const key in signupData) {
+  const onFormSubmit = async (type) => {
+    validateForm.value = true;
+    for (const key in formData) {
       validateInput(key);
     }
     if (
@@ -58,37 +58,39 @@ export const useSignup = () => {
       !errorMessage.password &&
       !errorMessage.confirmPassword
     ) {
-      await signupStore.signupUser({
-        firstName: signupData.firstName,
-        lastName: signupData.lastName,
-        email: signupData.email,
-        password: signupData.password,
-        roleId: signupData.role,
-      });
-      showSignupError.value = true;
-      if (isUserSignedup.value) {
-        for (const key in signupData) {
-          signupData[key] = "";
+      await signupStore.submitForm({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        roleId: formData.role,
+      }, type);
+      showFormError.value = true;
+      if (isFormSubmitted.value) {
+        for (const key in formData) {
+          formData[key] = "";
         }
       }
     }
   };
 
-  const routeToLogin = () => {
-    router.push("/login");
-    isUserSignedup.value = false;
+  const handleConfirmButton = (route) => {
+    if (route) {
+      router.push(route);
+    }
+    isFormSubmitted.value = false;
   };
 
   return {
-    onSignup,
-    signupData,
+    onFormSubmit,
+    formData,
     errorMessage,
     validateInput,
     roles,
     loading,
     error,
-    showSignupError,
-    isUserSignedup,
-    routeToLogin,
+    showFormError,
+    isFormSubmitted,
+    handleConfirmButton,
   };
 };
