@@ -32,7 +32,7 @@ export const useSignupStore = defineStore("signupStore", () => {
         type === "register" ? e?.response?.data : e?.response?.data?.message;
       if (
         errorMessage.includes("Duplicate") ||
-        errorMessage.includes("500 error to the user")
+        errorMessage.includes("500 error")
       ) {
         state.error = `Email Id already exists.`;
       } else {
